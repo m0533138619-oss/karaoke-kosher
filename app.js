@@ -26,7 +26,7 @@ function applyLang() {
   if (song) { renderMixer(); renderLyrics(true); renderTakes(); updateMeta(); }
   renderLibrary();
 }
-$('#langSel').onchange = e => { LANG = e.target.value; store.set('lang', LANG); applyLang(); };
+$('#langSel').onchange = e => { LANG = e.target.value; store.set('lang', LANG); applyLang(); if ($('#kSongs')) kpRender(); };
 
 const NTFY_TOPIC = 'keter-karaoke-mutzlach-7d3f9a';
 const LOCAL_SERVER = 'http://127.0.0.1:7860';
@@ -312,14 +312,17 @@ async function kosherCheck(url) {
 }
 async function submitKosher(url) {
   if (busy) return;
-  setJob(1, 'בודק שהשיר מזמר מאושר…');
+  setJob(1, kL('בודק שהשיר מזמר מאושר…', 'Checking the song is from an approved singer…'));
   const singer = await kosherCheck(url);
-  if (!singer) { setJob(0, '🚫 השיר הזה לא מערוץ של זמר מאושר. בחרו שיר מהרשימה, או קישור מהערוץ הרשמי של זמר מאושר.', 'err'); return; }
+  if (!singer) { setJob(0, '🚫 ' + kL('השיר הזה לא מערוץ של זמר מאושר. בחרו שיר מהרשימה, או קישור מהערוץ הרשמי של זמר מאושר.', 'This song is not from an approved singer\'s channel. Pick a song from the list, or a link from an approved singer\'s official channel.'), 'err'); return; }
   submit('yt', 'https://www.youtube.com/watch?v=' + ytId(url));
 }
+const kL = (he, en) => (LANG === 'en' ? en : he);   // fx.js (עם L) נטען אחרי הקובץ הזה
 // בחירת שיר: לשוניות סגנון ← עיגולי זמרים ← כרטיסי שירים (עם חיפוש)
 const STYLES = [['', '✨', 'הכל'], ['חסידי', '🕍', 'חסידי'], ['מזרחי', '🪘', 'מזרחי'], ['מוזיקה יהודית', '🎸', 'מוזיקה יהודית'],
   ['מקהלות', '🎶', 'מקהלות'], ['תזמורות', '🎺', 'תזמורות'], ['הופעות וחתונות', '💍', 'הופעות וחתונות'], ['ילדים', '🧒', 'ילדים']];
+const STYLE_EN = { '': 'All', 'חסידי': 'Hasidic', 'מזרחי': 'Mizrahi', 'מוזיקה יהודית': 'Jewish music', 'מקהלות': 'Choirs',
+  'תזמורות': 'Bands', 'הופעות וחתונות': 'Live & weddings', 'ילדים': 'Kids' };
 const KP = { style: '', singer: '', q: '', shown: 30 };
 const PAGE = 30;
 // צבע קבוע לכל זמר לפי השם, כדי שהעיגול שלו ייראה תמיד אותו דבר
@@ -338,26 +341,30 @@ function kpRender() {
   const known = STYLES.map(s => s[0]);
   const extra = [...new Set(KOSHER_ALL.map(s => s.style))].filter(s => !known.includes(s)).map(s => [s, '🎵', s]);
   $('#kStyles').innerHTML = [...STYLES, ...extra].filter(([k]) => !k || KOSHER_ALL.some(s => s.style === k)).map(([k, ic, name]) =>
-    `<button role="tab" class="${KP.style === k ? 'on' : ''}" data-style="${esc(k)}"><span>${ic}</span>${esc(name)}</button>`).join('');
+    `<button role="tab" class="${KP.style === k ? 'on' : ''}" data-style="${esc(k)}"><span>${ic}</span>${esc(kL(name, STYLE_EN[k] || name))}</button>`).join('');
   // זמרים בסגנון הנוכחי, מהגדול לקטן
   const counts = {}; inStyle.forEach(s => { counts[s.singer] = (counts[s.singer] || 0) + 1; });
   const singers = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b, 'he'));
   $('#kSingers').innerHTML = singers.map(n => `<button class="kp-singer ${KP.singer === n ? 'on' : ''}" data-singer="${esc(n)}" title="${esc(n)}">
-      <span class="kp-ava" style="--h:${hue(n)}">${esc(initials(n))}</span><b>${esc(n)}</b><small>${counts[n]} שירים</small></button>`).join('');
+      <span class="kp-ava" style="--h:${hue(n)}">${esc(initials(n))}</span><b>${esc(n)}</b><small>${counts[n]} ${kL('שירים', 'songs')}</small></button>`).join('');
   // שורת "איפה אני" + השירים
   const list = kpSongs();
-  $('#kCount').textContent = `${KOSHER_ALL.length.toLocaleString()} שירים · ${new Set(KOSHER_ALL.map(s => s.singer)).size} זמרים`;
+  $('#kTitle').textContent = '🎵 ' + kL('בחרו שיר', 'Pick a song');
+  $('#kSearch').placeholder = kL('חיפוש שיר או זמר…', 'Search a song or singer…');
+  $('#kLinkNote').textContent = kL('קישור מיוטיוב – רק מערוץ של זמר מאושר (עקיבא, ישי ריבו, מוטי שטיינמץ ועוד)',
+    'YouTube link – only from an approved singer\'s channel (Akiva, Ishay Ribo, Motty Steinmetz and more)');
+  $('#kCount').textContent =`${KOSHER_ALL.length.toLocaleString()} ${kL('שירים', 'songs')} · ${new Set(KOSHER_ALL.map(s => s.singer)).size} ${kL('זמרים', 'singers')}`;
   $('#kCrumb').innerHTML = KP.q
-    ? `<span>🔍 "${esc(KP.q)}" בכל השירים · ${list.length} שירים</span><button class="btn sm" id="kClear">✕ נקה</button>`
+    ? `<span>🔍 "${esc(KP.q)}" ${kL('בכל השירים', 'in all songs')} · ${list.length} ${kL('שירים', 'songs')}</span><button class="btn sm" id="kClear">✕ ${kL('נקה', 'Clear')}</button>`
     : KP.singer
-    ? `<span>🎤 ${esc(KP.singer)} · ${list.length} שירים</span><button class="btn sm" id="kClear">✕ נקה</button>`
-    : `<span class="muted">${list.length} שירים${KP.style ? ' בסגנון ' + esc(KP.style) : ''} · בחרו זמר או חפשו</span>`;
+    ? `<span>🎤 ${esc(KP.singer)} · ${list.length} ${kL('שירים', 'songs')}</span><button class="btn sm" id="kClear">✕ ${kL('נקה', 'Clear')}</button>`
+    : `<span class="muted">${list.length} ${kL('שירים', 'songs')}${KP.style ? ' · ' + esc(KP.style) : ''} · ${kL('בחרו זמר או חפשו', 'pick a singer or search')}</span>`;
   $('#kSongs').innerHTML = list.slice(0, KP.shown).map(s => `<button class="kp-song" data-id="${esc(s.id)}">
       <span class="kp-thumb"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(s.id)}/mqdefault.jpg" alt="" onerror="this.remove()"><i>🎵</i></span>
       <span class="kp-info"><b>${esc(s.title)}</b><small>${esc(s.singer)} · ${esc(s.style)}</small></span>
-      <span class="kp-go">🎤 לשיר</span></button>`).join('') || `<div class="kp-empty">😕 לא נמצאו שירים. נסו מילה אחרת.</div>`;
+      <span class="kp-go">🎤 ${kL('לשיר', 'Sing')}</span></button>`).join('') || `<div class="kp-empty">😕 ${kL('לא נמצאו שירים. נסו מילה אחרת.', 'No songs found. Try another word.')}</div>`;
   $('#kMore').classList.toggle('hidden', list.length <= KP.shown);
-  $('#kMore').textContent = `הצג עוד שירים (${list.length - KP.shown})`;
+  $('#kMore').textContent = `${kL('הצג עוד שירים', 'Show more songs')} (${list.length - KP.shown})`;
   $('#kClear') && ($('#kClear').onclick = () => { KP.singer = ''; KP.q = ''; $('#kSearch').value = ''; KP.shown = PAGE; kpRender(); });
 }
 if ($('#kSongs')) {

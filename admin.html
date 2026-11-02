@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>לוח מנהל – אולפן הקריוקי</title>
+<!-- אותו קובץ עובד בשני מקומות:
+     1. http://127.0.0.1:7860/admin – על המחשב של השרת, בלי סיסמה.
+     2. https://m0533138619-oss.github.io/karaoke-kosher/admin.html#k=<מפתח> – מהטלפון, מוצא את השרת לבד (ntfy). -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+:root{--bg:#0f0b1a;--card:#1a1428;--line:#2d2440;--ink:#f3eefc;--ink2:#b9add3;--muted:#8a7fa3;--acc:#a78bfa;--bar:#8b5cf6;--bar2:#c4b5fd;--ok:#34d399;--warn:#fbbf24}
+@media (prefers-color-scheme: light){:root{--bg:#f6f3fb;--card:#fff;--line:#e6e0f2;--ink:#1d1530;--ink2:#4b3f66;--muted:#7a6f92;--acc:#6d28d9;--bar:#7c3aed;--bar2:#a78bfa}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,"Segoe UI",Rubik,Arial,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+h1{font-size:19px;margin:0}
+h2{font-size:15px;margin:0 0 10px;color:var(--ink2)}
+main{padding:16px;max-width:1200px;margin:auto;display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{background:none;border:0;color:var(--ink2);padding:6px 12px;cursor:pointer;font:inherit}
+.seg button.on{background:var(--bar);color:#fff}
+.pill{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:99px;padding:4px 10px;font-size:13px;color:var(--ink2)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px #34d39933}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.tile b{display:block;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{color:var(--ink2);font-size:13px}
+.tile small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.chart{display:flex;align-items:flex-end;gap:2px;height:150px;border-bottom:1px solid var(--line);padding-top:8px;direction:ltr}
+.chart .c{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;min-width:0;cursor:default}
+.chart .c i{display:block;background:var(--bar);border-radius:4px 4px 0 0;min-height:0}
+.chart .c:hover i{background:var(--bar2)}
+.chart .c.now i{background:var(--acc)}
+.axis{display:flex;gap:2px;direction:ltr;color:var(--muted);font-size:11px;margin-top:4px}
+.axis span{flex:1;text-align:center;min-width:0;overflow:hidden}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);padding:6px 9px;border-radius:8px;font-size:13px;z-index:20;display:none;white-space:nowrap}
+.list{display:grid;gap:4px}
+.li{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:14px;position:relative;padding:3px 6px;border-radius:6px;overflow:hidden}
+.li .fill{position:absolute;inset:0 0 0 auto;background:color-mix(in srgb,var(--bar) 18%,transparent);z-index:0;border-radius:6px}
+.li>*:not(.fill){position:relative;z-index:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li b{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:right;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:500;font-size:12px}
+tr.v{cursor:pointer}
+tr.v:hover td{background:color-mix(in srgb,var(--bar) 10%,transparent)}
+.who{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.ava{width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;font-size:12px;color:#fff}
+.badge{font-size:11px;border-radius:99px;padding:1px 7px;background:var(--bar);color:#fff;margin-inline-start:4px}
+.scroll{overflow:auto;max-height:520px}
+.feed .it{display:grid;grid-template-columns:52px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}
+.feed .it time{color:var(--muted);font-variant-numeric:tabular-nums}
+.msg{white-space:pre-wrap;border-bottom:1px solid var(--line);padding:8px 0;font-size:14px}
+.modal{position:fixed;inset:0;background:#000a;display:none;place-items:center;z-index:30;padding:16px}
+.modal .card{width:min(560px,100%);max-height:85vh;overflow:auto}
+button.btn{background:var(--bar);color:#fff;border:0;border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer}
+button.ghost{background:none;border:1px solid var(--line);color:var(--ink2)}
+input{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px;font:inherit;width:100%}
+.qr img{background:#fff;padding:8px;border-radius:10px;width:180px;height:180px;image-rendering:pixelated}
+.hidden{display:none!important}
+.err{color:#f87171}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎤 לוח מנהל</h1>
+  <div class="row">
+    <span class="pill"><span class="dot"></span><span id="online">—</span></span>
+    <div class="seg" id="range"><button data-d="1">היום</button><button data-d="7" class="on">7 ימים</button><button data-d="30">30 ימים</button></div>
+    <button class="btn ghost" id="refresh" title="רענון">⟳</button>
+  </div>
+</header>
+
+<main id="app">
+  <div class="card" id="status">טוען…</div>
+</main>
+
+<div class="tip" id="tip"></div>
+<div class="modal" id="modal"><div class="card" id="modalBody"></div></div>
+
+<script>
+'use strict';
+const NTFY_TOPIC = 'keter-karaoke-mutzlach-7d3f9a';
+const LOCAL = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) && location.pathname === '/admin';   // נפתח מהשרת עצמו
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+// מפתח מהקישור (#k=...) נשמר בטלפון ונמחק מהכתובת
+const hk = new URLSearchParams(location.hash.slice(1)).get('k');
+if (hk) { store.set('adminKey', hk); history.replaceState(null, '', location.pathname); }
+let KEY = LOCAL ? '' : store.get('adminKey', '');
+let BASE = LOCAL ? '' : null, DAYS = 7, DATA = null, timer = 0;
+
+async function findServer() {
+  const txt = await (await fetch(`https://ntfy.sh/${NTFY_TOPIC}/json?poll=1&since=24h`)).text();
+  const msgs = txt.trim().split('\n').filter(Boolean).map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(m => m && m.event === 'message');
+  const u = msgs.length ? msgs[msgs.length - 1].message.trim() : '';
+  if (!/^https:\/\/[a-z0-9-]+\.trycloudflare\.com$/.test(u)) throw new Error('השרת לא נמצא – כנראה המחשב כבוי');
+  return u;
+}
+async function api(path) {
+  if (BASE === null) BASE = await findServer();
+  const r = await fetch(BASE + path, { headers: KEY ? { 'X-Admin-Key': KEY } : {}, cache: 'no-store' });
+  if (!r.ok) { let d = {}; try { d = await r.json(); } catch {} const e = new Error(d.detail || ('שגיאה ' + r.status)); e.status = r.status; throw e; }
+  return r.json();
+}
+
+const hhmm = t => new Date(t * 1000).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+const when = t => { const d = new Date(t * 1000), now = new Date();
+  const day = d.toDateString() === now.toDateString() ? 'היום' : d.toDateString() === new Date(now - 864e5).toDateString() ? 'אתמול' : d.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
+  return `${day} ${hhmm(t)}`; };
+const ago = t => { const s = Date.now() / 1000 - t; return s < 90 ? 'עכשיו' : s < 3600 ? `לפני ${Math.round(s / 60)} דק׳` : s < 86400 ? `לפני ${Math.round(s / 3600)} שע׳` : when(t); };
+const hue = s => [...String(s)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
+const ANIMALS = ['🦁', '🐯', '🐻', '🦊', '🐼', '🐨', '🐸', '🐵', '🦉', '🐧', '🐢', '🐬', '🦋', '🐝', '🦒', '🐘', '🦓', '🐙', '🦜', '🐿'];
+const who = vid => { if (!vid) return '<span class="muted">—</span>'; const h = hue(vid);
+  return `<span class="who"><span class="ava" style="background:hsl(${h} 55% 45%)">${ANIMALS[h % ANIMALS.length]}</span>מבקר ${esc(vid.slice(0, 4).toUpperCase())}</span>`; };
+const DEV = { desktop: '💻 מחשב', mobile: '📱 טלפון', tablet: '📱 טאבלט' };
+
+function bars(items, label, tipOf, nowIdx) {
+  const max = Math.max(1, ...items.map(x => x.v));
+  return `<div class="chart" role="img" aria-label="${esc(label)}">${items.map((x, i) =>
+    `<div class="c ${i === nowIdx ? 'now' : ''}" data-tip="${esc(tipOf(x))}"><i style="height:${x.v ? Math.max(3, x.v / max * 100) : 0}%"></i></div>`).join('')}</div>
+    <div class="axis">${items.map((x, i) => `<span>${x.axis ?? ''}</span>`).join('')}</div>`;
+}
+function list(rows, empty = 'אין עדיין נתונים') {
+  if (!rows.length) return `<div class="muted">${empty}</div>`;
+  const max = Math.max(...rows.map(r => r[1]));
+  return `<div class="list">${rows.map(([k, n]) => `<div class="li"><span class="fill" style="width:${n / max * 100}%"></span><span title="${esc(k)}">${esc(k)}</span><b>${n}</b></div>`).join('')}</div>`;
+}
+
+function render(d) {
+  DATA = d;
+  $('#online').textContent = d.online ? `${d.online} באתר עכשיו` : 'אין אף אחד באתר עכשיו';
+  const T = d.today, R = d.range, rl = DAYS === 1 ? '' : DAYS === 7 ? 'ב-7 ימים' : 'ב-30 ימים';
+  const tile = (n, lbl, r) => `<div class="tile"><b>${n}</b><span>${lbl}</span>${DAYS > 1 ? `<small>${r} ${rl}</small>` : ''}</div>`;
+  const nowH = new Date().getHours();
+  const hrs = d.hours.map(h => ({ v: h.visitors, axis: h.h % 3 === 0 ? String(h.h).padStart(2, '0') : '', h }));
+  const days = d.per_day.map((x, i) => ({ v: x.visitors, axis: d.per_day.length <= 10 || i % 5 === 0 || i === d.per_day.length - 1 ? x.day : '', x }));
+  const phone = LOCAL ? `<div class="card"><h2>📱 כניסה מהטלפון</h2><div class="row" style="gap:16px;align-items:flex-start">
+      <div class="qr" id="qr"></div><div style="flex:1;min-width:220px"><p style="margin-top:0">סורקים את הקוד עם המצלמה של הטלפון, ולוח המנהל נפתח בטלפון – מכל מקום, גם כשהשרת מחליף כתובת.
+      הטלפון זוכר את הכניסה. <b>לא לשלוח את הקוד לאף אחד</b> – מי שיש לו אותו רואה את הסטטיסטיקות.</p>
+      <p class="muted">אם הקוד דלף: מוחקים את הקובץ data\\admin-key.txt ומפעילים מחדש את השרת – נוצר קוד חדש.</p></div></div></div>` : '';
+  $('#app').innerHTML = `
+    <div class="tiles">
+      ${tile(T.visitors, 'מבקרים היום', R.visitors)}${tile(T.visits, 'כניסות היום', R.visits)}${tile(T.songs, 'שירים שביקשו היום', R.songs)}
+      ${tile(T.lyrics, 'תמלולי מילים היום', R.lyrics)}${tile(T.records, 'הקלטות היום', R.records)}${tile(T.rooms, 'ערבי קריוקי היום', R.rooms)}
+    </div>
+    <div class="grid2">
+      <div class="card"><h2>🕐 מבקרים לפי שעה – היום</h2>${bars(hrs, 'מבקרים לפי שעה היום', x => `${String(x.h.h).padStart(2, '0')}:00–${String(x.h.h).padStart(2, '0')}:59 · ${x.h.visitors} מבקרים · ${x.h.actions} פעולות`, nowH)}</div>
+      ${DAYS > 1 ? `<div class="card"><h2>📅 מבקרים לפי יום</h2>${bars(days, 'מבקרים לפי יום', y => `${y.x.day} · ${y.x.visitors} מבקרים · ${y.x.visits} כניסות · ${y.x.songs} שירים`)}</div>` : ''}
+    </div>
+    <div class="grid2">
+      <div class="card"><h2>🎵 השירים הכי מבוקשים</h2>${list(d.top_songs)}</div>
+      <div class="card"><h2>⚡ מה עשו באתר</h2>${list(d.actions)}</div>
+      <div class="card"><h2>📄 עמודים</h2>${list(d.pages)}</div>
+      <div class="card"><h2>📱 מאיפה</h2>
+        <div class="muted" style="font-size:12px">מכשיר</div>${list(d.devices.map(([k, n]) => [k, n]))}
+        <div class="muted" style="font-size:12px;margin-top:10px">איזה אתר</div>${list(d.sites)}
+        ${d.refs.length ? `<div class="muted" style="font-size:12px;margin-top:10px">הגיעו דרך</div>${list(d.refs)}` : ''}
+        ${d.countries.length ? `<div class="muted" style="font-size:12px;margin-top:10px">מדינה</div>${list(d.countries)}` : ''}</div>
+    </div>
+    <div class="card"><h2>👥 מי נכנס (${d.visitors.length}) <span class="muted" style="font-weight:400">– לחצו על מבקר כדי לראות כל מה שעשה</span></h2>
+      <div class="scroll"><table><thead><tr><th>מבקר</th><th>נכנס לראשונה</th><th>פעיל לאחרונה</th><th>מכשיר</th><th>פעולות</th><th>שירים</th></tr></thead><tbody>
+      ${d.visitors.map(v => `<tr class="v" data-vid="${esc(v.vid)}"><td>${who(v.vid)}${v.new ? '<span class="badge">חדש</span>' : ''}</td><td>${when(v.first)}</td><td>${ago(v.last)}</td>
+        <td>${DEV[v.dev] || esc(v.dev || '—')}${v.site ? ` · ${esc(v.site)}` : ''}</td><td>${v.actions}</td><td class="muted">${esc(v.songs.slice(0, 3).join(' · '))}${v.songs.length > 3 ? ` +${v.songs.length - 3}` : ''}</td></tr>`).join('') || '<tr><td colspan="6" class="muted">עוד לא נכנס אף אחד בטווח הזה</td></tr>'}
+      </tbody></table></div></div>
+    <div class="grid2">
+      <div class="card"><h2>🔴 מה קורה עכשיו</h2><div class="scroll feed">${d.feed.map(f => `<div class="it"><time>${hhmm(f.t)}</time><div>${who(f.vid)} ${esc(f.what)}${f.detail ? ` – <b>${esc(f.detail)}</b>` : ''}</div></div>`).join('') || '<div class="muted">עוד אין פעילות</div>'}</div></div>
+      <div class="card"><h2>✉️ הודעות מהאתר (${d.messages.length})</h2><div class="scroll">${d.messages.map(m => `<div class="msg">${esc(m.trim())}</div>`).join('') || '<div class="muted">אין הודעות</div>'}</div></div>
+    </div>
+    ${phone}
+    <div class="card muted" style="font-size:13px">🖥️ השרת: ${d.server.public ? esc(d.server.public) : 'בלי כתובת ציבורית'} · בתור: ${d.server.queue} · שירים מוכנים בשרת: ${d.server.songs_on_disk} · חדרי ערב קריוקי פתוחים: ${d.server.rooms} · עודכן ${hhmm(d.now)}</div>`;
+  if (LOCAL) showQr();
+}
+
+async function showQr() {
+  try {
+    const { key } = await api('/admin/key');
+    const url = `https://m0533138619-oss.github.io/karaoke-kosher/admin.html#k=${key}`;
+    const q = qrcode(0, 'M'); q.addData(url); q.make();
+    $('#qr').innerHTML = `<img alt="קוד QR לכניסה מהטלפון" src="${q.createDataURL(5, 2)}">`;
+  } catch {}
+}
+
+async function load() {
+  clearTimeout(timer);
+  try { render(await api(`/admin/data?days=${DAYS}`)); }
+  catch (e) {
+    if (e.status === 403 || (!LOCAL && !KEY)) return askKey(e.status === 403 ? 'המפתח לא נכון.' : '');
+    $('#app').innerHTML = `<div class="card err">❌ ${esc(e.message)}</div>`; BASE = LOCAL ? '' : null;
+  }
+  timer = setTimeout(load, 30000);
+}
+function askKey(msg) {
+  $('#app').innerHTML = `<div class="card" style="max-width:420px;margin:30px auto"><h2>🔑 כניסת מנהל</h2>
+    <p>סורקים את קוד ה-QR שבלוח המנהל במחשב של השרת (קיצור הדרך "לוח מנהל קריוקי" על שולחן העבודה), או מדביקים כאן את המפתח.</p>
+    <p class="err">${esc(msg)}</p><input id="key" dir="ltr" placeholder="מפתח מנהל"><div style="margin-top:10px"><button class="btn" id="go">כניסה</button></div></div>`;
+  $('#go').onclick = () => { KEY = $('#key').value.trim(); store.set('adminKey', KEY); load(); };
+}
+
+async function openVisitor(vid) {
+  $('#modal').style.display = 'grid';
+  $('#modalBody').innerHTML = `<h2>${who(vid)}</h2><div class="muted">טוען…</div>`;
+  try {
+    const ev = await api('/admin/visitor/' + encodeURIComponent(vid));
+    $('#modalBody').innerHTML = `<div class="row" style="justify-content:space-between"><h2 style="margin:0">${who(vid)}</h2><button class="btn ghost" id="mclose">✕</button></div>
+      <p class="muted">${ev.length} פעולות · מזהה ${esc(vid)}</p><div class="feed">${ev.map(f => `<div class="it" style="grid-template-columns:96px 1fr"><time>${when(f.t)}</time><div>${esc(f.what)}${f.detail ? ` – <b>${esc(f.detail)}</b>` : ''} <span class="muted">${esc(DEV[f.dev] || '')}</span></div></div>`).join('')}</div>`;
+  } catch (e) { $('#modalBody').innerHTML = `<p class="err">❌ ${esc(e.message)}</p><button class="btn ghost" id="mclose">סגירה</button>`; }
+  $('#mclose').onclick = () => { $('#modal').style.display = 'none'; };
+}
+$('#modal').onclick = e => { if (e.target.id === 'modal') e.currentTarget.style.display = 'none'; };
+document.addEventListener('click', e => { const tr = e.target.closest('tr.v'); if (tr) openVisitor(tr.dataset.vid); });
+$('#range').onclick = e => { const b = e.target.closest('[data-d]'); if (!b) return; DAYS = +b.dataset.d; document.querySelectorAll('#range button').forEach(x => x.classList.toggle('on', x === b)); load(); };
+$('#refresh').onclick = load;
+// tooltip לעמודות
+const tip = $('#tip');
+document.addEventListener('pointermove', e => { const c = e.target.closest('[data-tip]');
+  if (!c) { tip.style.display = 'none'; return; }
+  tip.textContent = c.dataset.tip; tip.style.display = 'block';
+  tip.style.left = Math.min(innerWidth - tip.offsetWidth - 8, Math.max(8, e.clientX - tip.offsetWidth / 2)) + 'px'; tip.style.top = (e.clientY - 40) + 'px'; });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') load(); });
+load();
+</script>
+</body>
+</html>

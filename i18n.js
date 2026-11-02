@@ -42,7 +42,7 @@ he: {
   mailSubject: 'הביצוע שלי לשיר {t}', mailBody: 'מצורף הביצוע שלי (הקובץ ירד למחשב – צרף אותו למייל).',
   noVideoSupport: 'הדפדפן לא תומך ביצירת סרטון. נסה בכרום.', videoHint: 'הסרטון נוצר בזמן אמת – זה לוקח כמו אורך השיר. השאר את הדף פתוח.',
   start: 'התחל', cancel: 'ביטול', ok: 'אישור', recordingVideo: 'יוצר סרטון…', videoReady: 'הסרטון ירד ✓',
-  saving: 'שומר במחשב…', linkCopied: 'הקישור הועתק ✓ (בתוקף 24 שעות)', copyLink: 'העתק את הקישור', zipping: 'מכין ZIP…',
+  saving: 'שומר במחשב…', linkCopied: 'הקישור הועתק ✓', copyLink: 'העתק את הקישור', zipping: 'מכין ZIP…',
   mainProfile: 'ראשי', addProfile: '+ פרופיל', profileName: 'שם הפרופיל (למשל: אבא, יוסי)',
   searchPh: 'חיפוש לפי שם, תגית או שורה מהמילים…', all: 'הכל', favorites: 'מועדפים', recent: 'אחרונים',
   plays: 'השמעות', best: 'שיא', libEmpty: 'התיקייה ריקה. פתח שיר באולפן ולחץ "שמור בתיקייה" או ★.',
@@ -163,12 +163,12 @@ he: {
 <p>רווח – נגן/עצור (ובזמן תזמון – סימון שורה). Esc – יציאה ממסך הבמה.</p>`
 },
 en: {
-  appName: 'My Karaoke Studio', company: 'Keter Technologies', install: 'Install',
-  welcomeTitle: 'Welcome to your Karaoke Studio', welcomeSub: 'Upload a song or paste a YouTube link – get a backing track, synced lyrics and recording with a score.', startNow: 'Get started →',
+  appName: 'Kosher Karaoke Studio', company: 'Keter Technologies', install: 'Install',
+  welcomeTitle: 'Welcome to the Kosher Karaoke Studio', welcomeSub: 'Approved singers only – pick a song and get a backing track, synced lyrics and recording with a score.', startNow: 'Get started →',
   homeTitle: 'What shall we do today?', tabHome: '🏠 Main menu',
-  mStudio: 'Upload a song, separate it, sing and record', mLibrary: 'All your saved songs, favorites and playlists', mParty: 'A singing evening with friends and family – everyone takes a turn',
+  mStudio: 'Pick a song from the list, separate it, sing and record', mLibrary: 'All your saved songs, favorites and playlists', mParty: 'A singing evening with friends and family – everyone takes a turn',
   feat1: 'Vocal separation', feat2: 'Synced lyrics', feat3: 'Singing score',
-  mPractice: 'Vocal warm-up, pitch meter and metronome', mGuide: 'Step-by-step instructions', mSettings: 'Server, offline storage, contact and admin',
+  mPractice: 'Vocal warm-up, pitch meter and metronome', mGuide: 'Step-by-step instructions', mSettings: 'Server, offline storage and contact',
   tabStudio: 'Studio', tabLibrary: 'My Songs', tabParty: 'Karaoke Night', tabPractice: 'Practice', tabGuide: 'Guide', tabSettings: 'Settings',
   newSong: 'New song', separation: 'Separation:', mode2: 'Vocals + backing track', mode4: '4 stems (vocals, drums, bass, other)',
   mode2short: '2 stems', mode4short: '4 stems',
@@ -185,15 +185,15 @@ en: {
   chorusMarked: 'Chorus marked', hardMarked: 'Part marked for practice', noChorus: 'No chorus marked yet. Press "Mark chorus" during the chorus.',
   mixer: 'Mixer', metronome: 'Metronome', mute: 'Mute', unmute: 'Unmute', download: 'Download',
   stVocals: '🎤 Vocals', stMusic: '🎵 Backing', stDrums: '🥁 Drums', stBass: '🎸 Bass', stOther: '🎹 Other',
-  expires24: 'Kept on the server for 24 hours – click "Save to my songs" to keep it', savedOffline: 'Saved on this computer ✓',
-  fileGone: 'The file is no longer on the server (deleted after 24 hours). Upload the song again.',
+  expires24: 'Kept on the server for 3 days – click "Save to my songs" to keep it', savedOffline: 'Saved on this computer ✓',
+  fileGone: 'The file is no longer on the server (deleted after 3 days). Pick the song again in the studio.',
   lyrics: 'Lyrics', autoLang: 'Auto-detect', autoLyrics: 'Auto-transcribe', editLyrics: 'Type / edit', tapSync: 'Tap to sync',
   noLyrics: 'No lyrics yet. Click "Auto-transcribe" or "Type / edit".', noLyricsShort: 'No lyrics',
   fontSize: 'Size:', bgBlack: 'Black', bg1: 'Purple-pink', bg2: 'Green-blue', bg3: 'Sunset', bg4: 'Animated', bgImg: 'My picture…',
   noTranslate: 'No translation', duet: 'Duet', downloadLrc: 'Download LRC', print: 'Print',
   lyricsPh: 'One line per row…', save: 'Save', duetHint: 'For duets: start a line with A: or B:',
   tapHint: 'The song is playing. Press Space (or the button) exactly when each line starts.', tapNow: 'Now! (Space)', done: 'Done',
-  transcribing: 'Transcribing… (up to a minute)', lyricsReady: 'Lyrics ready ✓', typeFirst: 'Type the lyrics first, one line per row', timingSaved: 'Timing saved ✓', translating: 'Translating…',
+  transcribing: 'Transcribing… (about 2 minutes)', lyricsReady: 'Lyrics ready ✓', typeFirst: 'Type the lyrics first, one line per row', timingSaved: 'Timing saved ✓', translating: 'Translating…',
   record: 'Recording', startRec: 'Start recording', stopRec: 'Stop recording', noiseClean: 'Noise reduction', withCam: 'With camera',
   twoSingersHint: 'Two singers? Record one after the other and tick both takes for export – they will be combined.',
   liveScore: 'Live score:', takes: 'Takes', noTakes: 'No recordings yet.', take: 'Take', score: 'Score', inExport: 'Export',
@@ -225,24 +225,22 @@ en: {
   adQueue: 'Queue', adDisk: 'Disk', adUptime: 'Uptime', adHours: 'Activity by hour', adJobs: 'Recent jobs', adErrors: 'Recent errors',
   status: 'Status', time: 'Time', none: 'None',
   loadingShared: 'Loading shared song…',
-  obTitle: 'Welcome to Karaoke Studio 🎤', ob1: 'Drop a song file or paste a YouTube link – the server separates the vocals from the music.',
+  obTitle: 'Welcome to the Kosher Karaoke Studio 🎤', ob1: 'Pick a song from the approved list, or paste a link from an approved singer\'s official channel – the server separates the vocals from the music.',
   ob2: 'Change key and speed, show synced lyrics and sing full screen.', ob3: 'Record yourself, get a score, add effects and download MP3 or video.',
   skip: 'Skip', next: 'Next', letsGo: "Let's go!",
   guideHtml: `<h2>📖 Complete guide</h2>
 <p class="muted">Everything on the site, page by page. Click a topic to jump to it.</p>
-<nav class="gtoc"><a href="#g-start">🚀 First</a><a href="#g-home">🏠 Menu</a><a href="#g-limits">🎟 Limits</a><a href="#g-studio">🎙️ Studio</a><a href="#g-lyrics">📝 Lyrics</a><a href="#g-rec">⏺ Recording & effects</a><a href="#g-export">⬇ Export & share</a><a href="#g-lib">🎵 My songs</a><a href="#g-party">🎉 Karaoke night</a><a href="#g-phone">📱 Phone remote</a><a href="#g-acc">👤 Account</a><a href="#g-contact">✉️ Contact</a><a href="#g-settings">⚙️ Settings</a><a href="#g-keys">⌨️ Shortcuts</a></nav>
-<h3 id="g-start">🚀 First – the server</h3><p>Song separation, accounts, phone remotes, share links and the admin panel run through the server on your computer. When it is on, the site finds it automatically. Without it you can still play saved songs and practice.</p>
-<h3 id="g-home">🏠 Menu & navigation</h3><ul><li>Press <b>"Get started"</b> on the welcome screen to reach the menu.</li><li>Every page has a <b>"← Back"</b> button and a <b>"🏠 Main menu"</b> button.</li><li>Top bar: language, dark/light mode, and <b>👤</b> for your account.</li></ul>
-<h3 id="g-limits">🎟 Limits</h3><ul><li>Guest: 1 new song/day. Registered: 2/day (+1 per invited friend). 10 saved songs, 1 phone karaoke night per week, 3 clips/stories per day. Already-separated songs don't count.</li></ul>
-<h3 id="g-studio">🎙️ Studio</h3><ul><li>Drop a song file, choose a file, or paste a YouTube link. Choose 2 stems (vocals + backing) or 4 stems.</li><li>Separation takes about 1–4 minutes.</li><li>Play/stop/skip, click the waveform to jump. <b>Karaoke/Original</b>, <b>🎧 Guide mode</b> (original vocals quietly in the background).</li><li>Mixer with volume, mute and download per stem. <b>Key</b> and <b>Speed</b>, <b>A–B loop</b>, markers, countdown, metronome, fullscreen.</li><li><b>Crowd</b> buttons: applause, cheers, wow, drumroll, horn, laugh.</li><li><b>Save to my songs</b> keeps the song on your computer forever.</li></ul>
-<h3 id="g-lyrics">📝 Lyrics</h3><ul><li><b>Auto-transcribe</b>, <b>type/edit</b>, <b>tap to sync</b> (press Space at each line).</li><li><b>Duet:</b> start lines with A:, B: or AB:, tick "Duet" and type both names – each singer gets a color and a name tag.</li><li>Font size, backgrounds, <b>animated backgrounds</b> (space, sea, fireworks, disco) and <b>💡 party lights</b> to the beat.</li><li>Translate, download LRC, print.</li></ul>
+<nav class="gtoc"><a href="#g-start">🚀 First</a><a href="#g-home">🏠 Menu</a><a href="#g-studio">🎙️ Studio</a><a href="#g-lyrics">📝 Lyrics</a><a href="#g-rec">⏺ Recording & effects</a><a href="#g-export">⬇ Export</a><a href="#g-lib">🎵 My songs</a><a href="#g-party">🎉 Karaoke night</a><a href="#g-phone">📱 Phone remote</a><a href="#g-contact">✉️ Contact</a><a href="#g-settings">⚙️ Settings</a><a href="#g-keys">⌨️ Shortcuts</a></nav>
+<h3 id="g-start">🚀 First – the server</h3><p>Song separation, automatic lyrics and phone remotes run through the server on your computer. When it is on, the site finds it automatically. Without it you can still play saved songs and practice.</p>
+<h3 id="g-home">🏠 Menu & navigation</h3><ul><li>Press <b>"Get started"</b> on the welcome screen to reach the menu.</li><li>Every page has a <b>"← Back"</b> button and a <b>"🏠 Main menu"</b> button.</li><li>Top bar: language and dark/light mode.</li></ul>
+<h3 id="g-studio">🎙️ Studio</h3><ul><li><b>Kosher version:</b> pick a style and a singer, or search a song or singer name (search always covers all songs), and press <b>🎤 Sing</b>. You can also paste a link from an approved singer's official YouTube channel. No file uploads. Choose 2 stems (vocals + backing) or 4 stems.</li><li>Separation takes about 1–4 minutes.</li><li>Play/stop/skip, click the waveform to jump. <b>Karaoke/Original</b>, <b>🎧 Guide mode</b> (original vocals quietly in the background).</li><li>Mixer with volume, mute and download per stem. <b>Key</b> and <b>Speed</b>, <b>A–B loop</b>, markers, countdown, metronome, fullscreen.</li><li><b>Crowd</b> buttons: applause, cheers, wow, drumroll, horn, laugh.</li><li><b>Save to my songs</b> keeps the song on your computer forever.</li></ul>
+<h3 id="g-lyrics">📝 Lyrics</h3><ul><li><b>Auto-transcribe</b> (the server listens to the vocals and writes the lyrics, timed word by word – about a minute; you can fix mistakes), <b>type/edit</b>, <b>tap to sync</b> (press Space at each line).</li><li><b>Duet:</b> start lines with A:, B: or AB:, tick "Duet" and type both names – each singer gets a color and a name tag.</li><li>Font size, backgrounds, <b>animated backgrounds</b> (space, sea, fireworks, disco) and <b>💡 party lights</b> to the beat.</li><li>Download LRC, print.</li></ul>
 <h3 id="g-rec">⏺ Recording & effects</h3><ul><li>Press <b>"Start recording"</b> (headphones recommended), optional noise cleanup and camera. You get a <b>score</b>.</li><li>Takes: listen, delete, choose which go into the export.</li><li>Reverb, echo, bass boost, voice volume. <b>Fun voice effects:</b> robot, helium, deep, big hall, old phone. <b>✨ Gentle pitch correction.</b></li></ul>
-<h3 id="g-export">⬇ Export & share</h3><ul><li>MP3/WAV with trim, fade and normalize; karaoke <b>video</b>; send by email.</li><li><b>🔗 Share my performance</b> – a link anyone can open to hear you.</li><li><b>Share link</b> to the song, and <b>download all (ZIP)</b>.</li></ul>
-<h3 id="g-lib">🎵 My songs</h3><ul><li>Search, favorites, recent, tags, family profiles.</li><li>Playlists – play in a row, <b>👥 Share</b> a playlist link with friends.</li><li>Progress chart of your scores.</li></ul>
+<h3 id="g-export">⬇ Export</h3><ul><li>MP3/WAV with trim, fade and normalize; karaoke <b>video</b>; send by email; <b>download all (ZIP)</b>.</li></ul>
+<h3 id="g-lib">🎵 My songs</h3><ul><li>Search, favorites, recent, tags, family profiles.</li><li>Playlists – play in a row.</li><li>Progress chart of your scores.</li></ul>
 <h3 id="g-party">🎉 Karaoke night</h3><ul><li><b>📺 TV stage screen</b> – fullscreen with next singer, queue, leaderboard and join code.</li><li><b>📱 Connect phones</b> – creates a room and shows a <b>QR code</b> (server must be on).</li><li>Modes: free, <b>competition</b>, <b>teams</b>.</li><li>Queue: add, move up, remove, pick team. <b>▶ Next singer</b> → song fullscreen → <b>star voting</b> → score and confetti.</li><li>Record every performance, <b>🎡 wheel</b> of singers/songs, <b>🎯 challenges</b> with bonus, <b>🎂 birthday mode</b>, <b>friend profiles</b>.</li><li><b>🏆 End of night</b> podium, <b>📜 certificates</b>, <b>🎬 summary video</b>, <b>💿 album ZIP</b>, new evening.</li></ul>
 <h3 id="g-phone">📱 Phone remote (guests)</h3><ul><li>Scan the QR, type your name (and team), join.</li><li>Pick songs (up to 3), rate the singer 1–5 stars, send reactions that fly on the TV.</li></ul>
-<h3 id="g-acc">👤 My account</h3><ul><li>Sign up with name, email and password – confirm with the 6-digit code from your email.</li><li>Sign in, forgot password (code by email), sync your songs across computers.</li></ul>
-<h3 id="g-contact">✉️ Contact</h3><p>Send us a message; you get an email confirmation.</p>
+<h3 id="g-contact">✉️ Contact</h3><p>Write your name, email and message and press Send – it reaches us (the server must be on).</p>
 <h3 id="g-settings">⚙️ Settings</h3><ul><li>Server address and test, storage used, delete all, links, install as an app.</li></ul>
 <h3 id="g-keys">⌨️ Shortcuts</h3><p>Space – play/pause (or mark a line while syncing). Esc – leave the stage screen.</p>`
 }
@@ -254,16 +252,12 @@ Object.assign(window.I18N.he, {
   back: '→ חזרה', privacyTitle: 'מדיניות פרטיות', privacyHtml: `<h2>🔒 מדיניות פרטיות</h2>
 <p class="muted">עודכן: אוקטובר 2026</p>
 <h3>מה נאסף</h3><ul>
-<li><b>סטטיסטיקת כניסות אנונימית:</b> מספר מזהה אקראי שנשמר בדפדפן שלך (בלי שם ובלי מייל), איזה עמוד נפתח, שפה, סוג מכשיר (מחשב/טלפון), מאיזה אתר הגעת, ומדינה כללית. המטרה – לדעת כמה משתמשים באתר ולשפר אותו.</li>
-<li><b>אם נרשמת לחשבון:</b> שם, כתובת מייל וסיסמה (שמורה מוצפנת – אף אחד לא יכול לקרוא אותה), ורשימת השירים שלך כדי שתוכל לראות אותם מכל מחשב.</li>
+<li><b>סטטיסטיקת כניסות אנונימית:</b> מספר מזהה אקראי שנשמר בדפדפן שלך (בלי שם ובלי מייל), מתי נכנסת, אילו עמודים פתחת ומה עשית באתר (למשל איזה שיר בחרת, הקלטה, ערב קריוקי), שפה, סוג מכשיר (מחשב/טלפון), מאיזה אתר הגעת, ומדינה כללית. המטרה – לדעת כמה משתמשים באתר ולשפר אותו.</li>
 <li><b>אם פנית ב"צור קשר":</b> השם, המייל וההודעה שכתבת.</li>
-<li><b>שירים שהעלית:</b> נשמרים בשרת לצורך ההפרדה, ונמחקים אוטומטית אחרי 24 שעות – אלא אם שמרת אותם בחשבון או שיתפת אותם.</li>
-<li><b>הקלטות:</b> נשמרות רק במחשב שלך. הן עולות לשרת רק אם בחרת "שתף את הביצוע שלי".</li>
-<li><b>קליפים וסטורי בקהילה:</b> מה שאתה מפרסם (וידאו או קול, כיתוב, תגובות ולייקים) נשמר בשרת ומוצג לפי הבחירה שלך – לכולם או רק לעוקבים. סטורי נעלם מהתצוגה אחרי 24 שעות. אפשר למחוק קליפ שלך בכל רגע.</li>
-<li><b>תמונת פרופיל ופרטי פרופיל</b> שבחרת להוסיף.</li></ul>
-<h3>אחריות על תוכן</h3><p>כל משתמש אחראי על מה שהוא מעלה, כולל זכויות על השירים והסכמה של מי שמופיע בקליפ. אסור להעלות תוכן פוגע, לא צנוע או שמפר זכויות. תוכן שדווח ייבדק ויכול להיות מוסתר או נמחק, ומשתמש שמפר את הכללים יכול להיחסם.</p>
-<h3>מה לא עושים</h3><ul><li>לא מוכרים ולא מעבירים מידע לאף אחד.</li><li>לא משתמשים בפרסומות או במעקב של חברות אחרות.</li><li>המייל שלך משמש רק לקודי אימות, איפוס סיסמה ותשובות לפניות שלך.</li></ul>
-<h3>הזכויות שלך</h3><p>אפשר לבקש לראות, לתקן או למחוק את המידע שלך (כולל מחיקת החשבון) – דרך עמוד "צור קשר" או במייל myelin41375@gmail.com.</p>`, agreePriv: 'בהרשמה אני מסכים/ה ל',
+<li><b>שירים שבחרת:</b> הפלייבק והמילים נשמרים בשרת 3 ימים ואז נמחקים.</li>
+<li><b>הקלטות:</b> נשמרות רק במחשב שלך ולא עולות לשרת.</li></ul>
+<h3>מה לא עושים</h3><ul><li>לא מוכרים ולא מעבירים מידע לאף אחד.</li><li>לא משתמשים בפרסומות או במעקב של חברות אחרות.</li><li>המייל שכתבת ב"צור קשר" משמש רק כדי לענות לך.</li></ul>
+<h3>הזכויות שלך</h3><p>אפשר לבקש לראות או למחוק את המידע שלך – דרך עמוד "צור קשר".</p>`, agreePriv: 'בהרשמה אני מסכים/ה ל',
   accTitle: 'החשבון שלי', perfTitle: 'ביצוע ששותף', mAccount: 'הרשמה וכניסה – השירים שלך בכל מחשב', mContact: 'שאלה, רעיון או בעיה? כתבו לנו',
   sharePerf: '🔗 שתף את הביצוע שלי', guideMode: '🎧 מצב מדריך', crowdLbl: 'קהל:',
   aniNone: 'בלי רקע מונפש', aniSpace: '🌌 חלל', aniSea: '🌊 ים', aniFire: '🎆 זיקוקים', aniDisco: '🪩 דיסקו', lights: '💡 אורות מסיבה',
@@ -277,15 +271,12 @@ Object.assign(window.I18N.en, {
   back: '← Back', privacyTitle: 'Privacy policy', privacyHtml: `<h2>🔒 Privacy policy</h2>
 <p class="muted">Updated: October 2026</p>
 <h3>What we collect</h3><ul>
-<li><b>Anonymous visit statistics:</b> a random ID stored in your browser (no name or email), the page opened, language, device type, referring site and general country – to know how many people use the site and improve it.</li>
-<li><b>If you create an account:</b> name, email and password (stored encrypted), and your song list so you can see it on any computer.</li>
+<li><b>Anonymous visit statistics:</b> a random ID stored in your browser (no name or email), when you visited, which pages you opened and what you did on the site (e.g. which song you picked, recording, karaoke night), language, device type, referring site and general country – to know how many people use the site and improve it.</li>
 <li><b>If you contact us:</b> your name, email and message.</li>
-<li><b>Uploaded songs:</b> kept on the server for separation and deleted automatically after 24 hours, unless saved to your account or shared.</li>
-<li><b>Recordings:</b> stay on your computer; they are uploaded only if you choose "Share my performance".</li>
-<li><b>Community clips & stories:</b> what you post (video or voice, caption, comments, likes) is stored on the server and shown per your choice – everyone or followers only. Stories disappear after 24 hours. You can delete your clips anytime.</li></ul>
-<h3>Content responsibility</h3><p>Each user is responsible for what they upload, including song rights and consent of anyone appearing. Offensive or infringing content may be hidden or deleted, and violating users may be blocked.</p>
-<h3>What we don't do</h3><ul><li>We don't sell or share your data.</li><li>No ads or third-party tracking.</li><li>Your email is used only for codes, password reset and replies.</li></ul>
-<h3>Your rights</h3><p>You can ask to see, correct or delete your data (including your account) via the Contact page or myelin41375@gmail.com.</p>`, agreePriv: 'By signing up I agree to the ',
+<li><b>Songs you pick:</b> the backing track and lyrics stay on the server for 3 days, then are deleted.</li>
+<li><b>Recordings:</b> stay on your computer only and are never uploaded.</li></ul>
+<h3>What we don't do</h3><ul><li>We don't sell or share your data.</li><li>No ads or third-party tracking.</li><li>The email you write in Contact is used only to reply to you.</li></ul>
+<h3>Your rights</h3><p>You can ask to see or delete your data via the Contact page.</p>`, agreePriv: 'By signing up I agree to the ',
   accTitle: 'My account', perfTitle: 'Shared performance', mAccount: 'Sign up and sign in – your songs on every computer', mContact: 'A question, idea or problem? Write to us',
   sharePerf: '🔗 Share my performance', guideMode: '🎧 Guide mode', crowdLbl: 'Crowd:',
   aniNone: 'No animated background', aniSpace: '🌌 Space', aniSea: '🌊 Sea', aniFire: '🎆 Fireworks', aniDisco: '🪩 Disco', lights: '💡 Party lights',
