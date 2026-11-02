@@ -211,7 +211,7 @@ async function apiError(r) {
 let busy = false;
 async function submit(kind, payload) {
   if (busy) return; busy = true;
-  $('#ytBtn').disabled = $('#pickBtn').disabled = true;
+  $('#ytBtn').disabled = true;   // בגרסה הכשרה אין כפתור העלאת קובץ (#pickBtn)
   try {
     setJob(2, t('connecting'));
     if (!(await wakeServer())) { if (kind === 'file') setJob(0, t('noServer'), 'err'); else await offlineQueue(payload); return; }
@@ -230,7 +230,7 @@ async function submit(kind, payload) {
   } catch (e) {
     setJob(0, '❌ ' + t('netErr'), 'err');
   } finally {
-    busy = false; $('#ytBtn').disabled = $('#pickBtn').disabled = false; window.refreshLimits && refreshLimits();
+    busy = false; $('#ytBtn').disabled = false; window.refreshLimits && refreshLimits();
   }
 }
 
