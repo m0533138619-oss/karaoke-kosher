@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>אולפן הקריוקי הכשר</title>
+<meta name="description" content="אולפן קריוקי בעברית ובאנגלית: מעלים שיר או מדביקים קישור מיוטיוב, ומקבלים פלייבק, שירה ומילים מתוזמנות. הקלטה, אפקטים וציון לשירה.">
+<meta name="theme-color" content="#8b5cf6">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top noprint">
+  <a class="logo" href="#home"><span>🎤</span><span class="k" data-i18n="appName">אולפן הקריוקי הכשר</span></a>
+  <nav class="tabs" id="tabs">
+    <button id="backBtn" class="backbtn" data-i18n="back">→ חזרה</button>
+    <button data-view="home" data-i18n="tabHome">🏠 תפריט ראשי</button>
+    <span class="ptitle" id="pageTitle"></span>
+  </nav>
+  <div class="toolsr">
+    <select id="langSel" aria-label="language">
+      <option value="he">עברית</option><option value="en">English</option>
+    </select>
+    <button id="themeBtn" title="theme">🌙</button>
+    <button id="installBtn" class="hidden" data-i18n="install">התקן</button>
+  </div>
+</header>
+
+<main>
+<!-- =================== מסך פתיחה =================== -->
+<section id="view-welcome" class="hidden">
+  <div class="welcome">
+    <div class="wbg" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="wgrid"></span></div>
+    <div class="wcontent">
+      <div class="micring"><span class="r1"></span><span class="r2"></span><span class="mic">🎤</span></div>
+      <h1 data-i18n="welcomeTitle">ברוכים הבאים לאולפן הקריוקי שלך</h1>
+      <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <p data-i18n="welcomeSub">מעלים שיר או מדביקים קישור מיוטיוב – ומקבלים פלייבק, מילים מתוזמנות והקלטה עם ציון.</p>
+      <div class="feats">
+        <span>🎙️ <b data-i18n="feat1">הפרדת שירה מהמוזיקה</b></span>
+        <span>📝 <b data-i18n="feat2">מילים מתוזמנות</b></span>
+        <span>⭐ <b data-i18n="feat3">ציון לשירה</b></span>
+      </div>
+      <button class="btn pri big shine" id="startBtn" data-i18n="startNow">מתחילים ←</button>
+    </div>
+  </div>
+</section>
+
+<!-- =================== תפריט ראשי =================== -->
+<section id="view-home" class="hidden">
+  <h1 class="home-title" data-i18n="homeTitle">מה נעשה היום?</h1>
+  <div class="menu">
+    <a class="mcard" href="#studio"><span class="mi">🎙️</span><b data-i18n="tabStudio">אולפן</b><span data-i18n="mStudio">מעלים שיר, מפרידים, שרים ומקליטים</span></a>
+    <a class="mcard" href="#library"><span class="mi">🎵</span><b data-i18n="tabLibrary">השירים שלי</b><span data-i18n="mLibrary">כל השירים ששמרת, מועדפים ורשימות השמעה</span></a>
+    <a class="mcard" href="#party"><span class="mi">🎉</span><b data-i18n="tabParty">מצב שמחה</b><span data-i18n="mParty">תור זמרים לאירוע – כל אחד בתורו במסך מלא</span></a>
+    <a class="mcard" href="#guide"><span class="mi">📖</span><b data-i18n="tabGuide">מדריך</b><span data-i18n="mGuide">הסבר צעד אחר צעד איך משתמשים</span></a>
+    <a class="mcard" href="#account"><span class="mi">👤</span><b data-i18n="accTitle">החשבון שלי</b><span data-i18n="mAccount">הרשמה וכניסה – השירים שלך בכל מחשב</span></a>
+    <a class="mcard" href="#contact"><span class="mi">✉️</span><b data-i18n="contact">צור קשר</b><span data-i18n="mContact">שאלה, רעיון או בעיה? כתבו לנו</span></a>
+    <a class="mcard" href="#settings"><span class="mi">⚙️</span><b data-i18n="tabSettings">הגדרות</b><span data-i18n="mSettings">שרת, שמירה במחשב, יצירת קשר ומנהל</span></a>
+  </div>
+</section>
+
+<!-- =================== אולפן =================== -->
+<section id="view-studio" class="hidden">
+  <div class="card" id="inputCard">
+    <h2 data-i18n="newSong">שיר חדש</h2>
+    <div class="row" style="margin-bottom:12px">
+      <span class="muted" data-i18n="separation">הפרדה:</span>
+      <div class="seg" id="modeSeg">
+        <button data-mode="2" class="on" data-i18n="mode2">שירה + פלייבק</button>
+        <button data-mode="4" data-i18n="mode4">4 ערוצים (שירה, תופים, בס, כלים)</button>
+      </div>
+    </div>
+    <!-- גרסה כשרה: אין העלאת קבצים, רק שירים מאושרים -->
+    <div class="drop kosher-pick">
+      <div style="font-size:40px">🎵</div>
+      <div><b>בחרו שיר מהרשימה המאושרת</b></div>
+      <div class="row" style="justify-content:center;margin-top:12px">
+        <select id="kosherSel" style="flex:1;min-width:220px;max-width:420px"></select>
+        <button class="btn pri" id="pickBtn">הבא את השיר</button>
+      </div>
+    </div>
+    <div class="or" data-i18n="or">או</div>
+    <div class="muted" style="margin-bottom:8px">קישור מיוטיוב – רק מערוץ של זמר מאושר (עקיבא, ישי ריבו, מוטי שטיינמץ ועוד)</div>
+    <div class="row">
+      <input type="url" id="ytInput" class="grow" placeholder="https://www.youtube.com/watch?v=..." style="flex:1;min-width:220px">
+      <button class="btn pri" id="ytBtn" data-i18n="fromYoutube">הבא מיוטיוב</button>
+    </div>
+    <div id="limitBox" class="limitbox"></div>
+    <div id="jobBox" class="hidden" style="margin-top:16px">
+      <div class="progress"><div id="jobBar"></div></div>
+      <div class="status" id="jobStatus"></div>
+    </div>
+  </div>
+
+  <div id="songArea" class="hidden">
+    <div class="card">
+      <div class="row">
+        <h2 id="songTitle" class="grow" style="margin:0"></h2>
+        <button class="star" id="favBtn" title="★">★</button>
+        <button class="btn sm" id="saveBtn" data-i18n="saveToLib">שמור בתיקייה</button>
+        <button class="btn sm" id="shareBtn" data-i18n="share">שתף קישור</button>
+        <button class="btn sm" id="zipBtn" data-i18n="downloadAll">הורד הכל (ZIP)</button>
+        <button class="btn sm" id="sharePerfBtn" data-i18n="sharePerf">🔗 שתף את הביצוע שלי</button>
+      </div>
+      <div class="muted" id="songMeta" style="margin:6px 0 10px"></div>
+      <canvas class="wave" id="wave" height="90"></canvas>
+      <div class="transport">
+        <button class="btn pri" id="playBtn">▶</button>
+        <button class="btn" id="stopBtn">⏹</button>
+        <button class="btn" id="back5">⏪ 5</button>
+        <button class="btn" id="fwd5">5 ⏩</button>
+        <span class="time" id="timeLbl" dir="ltr">0:00 / 0:00</span>
+        <div class="seg">
+          <button id="srcKaraoke" class="on" data-i18n="karaoke">קריוקי</button>
+          <button id="srcOriginal" data-i18n="original">מקורי</button>
+        </div>
+        <button class="btn" id="guideBtn" data-i18n="guideMode" title="">🎧 מצב מדריך</button>
+        <label class="chk"><input type="checkbox" id="countdownChk" checked> <span data-i18n="countdown">ספירה לאחור</span></label>
+        <button class="btn" id="fsBtn" data-i18n="fullscreen">מסך מלא</button>
+      </div>
+      <div class="row" id="studioCrowd" style="margin:-4px 0 12px">
+        <span class="muted" data-i18n="crowdLbl">קהל:</span>
+        <button class="btn sm" data-cr="clap">👏</button><button class="btn sm" data-cr="cheer">🎉</button><button class="btn sm" data-cr="wow">😮</button>
+        <button class="btn sm" data-cr="drum">🥁</button><button class="btn sm" data-cr="horn">📯</button><button class="btn sm" data-cr="laugh">😂</button>
+      </div>
+
+      <div class="grid2">
+        <div class="ch">
+          <div class="kv"><b data-i18n="pitch">סולם</b><span id="pitchLbl">0</span></div>
+          <input type="range" id="pitch" min="-6" max="6" step="1" value="0">
+          <div class="muted" data-i18n="pitchHint">שינוי הגובה של המוזיקה לפי הקול שלך</div>
+        </div>
+        <div class="ch">
+          <div class="kv"><b data-i18n="tempo">מהירות</b><span id="tempoLbl">100%</span></div>
+          <input type="range" id="tempo" min="50" max="150" step="5" value="100">
+          <div class="muted" data-i18n="tempoHint">האטה/האצה בלי לשנות את הגובה</div>
+        </div>
+        <div class="ch">
+          <div class="kv"><b data-i18n="loop">לולאה</b><span id="loopLbl" dir="ltr">—</span></div>
+          <div class="row">
+            <button class="btn sm" id="loopA">A</button>
+            <button class="btn sm" id="loopB">B</button>
+            <button class="btn sm" id="loopOff" data-i18n="clear">נקה</button>
+          </div>
+        </div>
+        <div class="ch">
+          <div class="kv"><b data-i18n="markers">סימניות</b></div>
+          <div class="row">
+            <button class="btn sm" id="markChorus" data-i18n="markChorus">סמן פזמון</button>
+            <button class="btn sm" id="goChorus" data-i18n="goChorus">קפוץ לפזמון</button>
+            <button class="btn sm" id="markHard" data-i18n="markHard">קטע קשה</button>
+          </div>
+          <div id="markList" class="row" style="margin-top:6px"></div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:16px" data-i18n="mixer">מיקסר</h3>
+      <div class="mixer" id="mixer"></div>
+      <div class="row" style="margin-top:8px">
+        <span class="pill" id="bpmLbl">BPM —</span>
+        <label class="chk"><input type="checkbox" id="metroChk"> <span data-i18n="metronome">מטרונום</span></label>
+      </div>
+    </div>
+
+    <!-- מילים -->
+    <div class="card">
+      <div class="row">
+        <h2 class="grow" style="margin:0" data-i18n="lyrics">מילים</h2>
+        <select id="lyrLang" style="width:auto">
+          <option value="auto" data-i18n="autoLang">זיהוי שפה</option>
+          <option value="he">עברית</option><option value="en">English</option>
+        </select>
+        <button class="btn sm" id="autoLyrBtn" data-i18n="autoLyrics">תמלל אוטומטית</button>
+        <button class="btn sm" id="editLyrBtn" data-i18n="editLyrics">הקלד / ערוך</button>
+        <button class="btn sm" id="tapBtn" data-i18n="tapSync">תזמון בהקשה</button>
+      </div>
+      <div class="lyrics" id="lyrics" style="margin-top:12px"><div class="ln muted" data-i18n="noLyrics">אין עדיין מילים. תמלל אוטומטית או הקלד.</div></div>
+      <div class="row" style="margin-top:10px">
+        <span class="muted" data-i18n="fontSize">גודל:</span>
+        <input type="range" id="fontSize" min="20" max="56" value="34" style="width:120px">
+        <select id="bgSel" style="width:auto">
+          <option value="" data-i18n="bgBlack">רקע שחור</option>
+          <option value="bg-1" data-i18n="bg1">סגול-ורוד</option>
+          <option value="bg-2" data-i18n="bg2">ירוק-כחול</option>
+          <option value="bg-3" data-i18n="bg3">שקיעה</option>
+          <option value="bg-4" data-i18n="bg4">אנימציה</option>
+          <option value="img" data-i18n="bgImg">תמונה שלי…</option>
+        </select>
+        <input type="file" id="bgImg" accept="image/*" hidden>
+        <select id="trLang" style="width:auto">
+          <option value="" data-i18n="noTranslate">בלי תרגום</option>
+          <option value="he">→ עברית</option><option value="en">→ English</option>
+        </select>
+        <select id="aniBgSel" style="width:auto">
+          <option value="" data-i18n="aniNone">בלי רקע מונפש</option>
+          <option value="space" data-i18n="aniSpace">🌌 חלל</option>
+          <option value="sea" data-i18n="aniSea">🌊 ים</option>
+          <option value="fireworks" data-i18n="aniFire">🎆 זיקוקים</option>
+          <option value="disco" data-i18n="aniDisco">🪩 דיסקו</option>
+        </select>
+        <label class="chk"><input type="checkbox" id="lightsChk"> <span data-i18n="lights">💡 אורות מסיבה</span></label>
+        <label class="chk"><input type="checkbox" id="duetChk"> <span data-i18n="duet">דואט</span></label>
+        <button class="btn sm" id="lrcBtn" data-i18n="downloadLrc">הורד LRC</button>
+        <button class="btn sm" id="printBtn" data-i18n="print">הדפס</button>
+      </div>
+      <div id="duetNames" class="row hidden" style="margin-top:8px">
+        <span class="duetdot" style="background:var(--a)"></span><input type="text" id="duetA" data-i18n-ph="duetA" placeholder="שם זמר/ת A" style="flex:1">
+        <span class="duetdot" style="background:var(--b)"></span><input type="text" id="duetB" data-i18n-ph="duetB" placeholder="שם זמר/ת B" style="flex:1">
+        <span class="muted" data-i18n="duetHint2">בעריכת המילים: A: / B: / יחד: בתחילת שורה</span>
+      </div>
+      <div id="lyrEditor" class="hidden" style="margin-top:10px">
+        <textarea id="lyrText" data-i18n-ph="lyricsPh" placeholder="שורה בכל שורה…"></textarea>
+        <div class="row" style="margin-top:6px">
+          <button class="btn pri sm" id="lyrSave" data-i18n="save">שמור</button>
+          <span class="muted" data-i18n="duetHint">לדואט: התחל שורה ב-A: או B:</span>
+        </div>
+      </div>
+      <div id="tapBox" class="hidden" style="margin-top:10px">
+        <div class="status" data-i18n="tapHint">נגן את השיר ולחץ רווח (או על הכפתור) בתחילת כל שורה.</div>
+        <div class="row"><button class="btn pri" id="tapNow" data-i18n="tapNow">עכשיו! (רווח)</button><span id="tapPos" class="muted"></span><button class="btn sm" id="tapDone" data-i18n="done">סיום</button></div>
+      </div>
+    </div>
+
+    <!-- הקלטה -->
+    <div class="card">
+      <h2 data-i18n="record">הקלטה</h2>
+      <div class="row">
+        <button class="btn pri" id="recBtn">⏺ <span data-i18n="startRec">התחל להקליט</span></button>
+        <label class="chk"><input type="checkbox" id="noiseChk" checked> <span data-i18n="noiseClean">ניקוי רעשים</span></label>
+        <label class="chk"><input type="checkbox" id="camChk"> <span data-i18n="withCam">עם מצלמה</span></label>
+      </div>
+      <div class="muted" data-i18n="twoSingersHint">שני זמרים? הקליטו כל אחד בתורו וסמנו את שני הניסיונות לייצוא – הם יתחברו יחד.</div>
+      <div class="pitchbar" style="margin-top:10px"><canvas id="pitchCanvas" width="800" height="70"></canvas></div>
+      <div class="row" style="margin-top:8px">
+        <span class="muted" data-i18n="liveScore">ציון חי:</span> <span class="score" id="liveScore">—</span>
+        <video id="camPreview" class="hidden" muted playsinline style="width:160px;border-radius:10px"></video>
+      </div>
+      <h3 data-i18n="takes">ניסיונות</h3>
+      <div class="list" id="takes"><div class="muted" data-i18n="noTakes">עוד לא הקלטת.</div></div>
+      <div class="grid2" style="margin-top:12px">
+        <div class="ch">
+          <b data-i18n="effects">אפקטים לקול</b>
+          <div class="kv"><span data-i18n="reverb">הד</span><span id="revLbl">20%</span></div>
+          <input type="range" id="reverb" min="0" max="100" value="20">
+          <div class="kv"><span data-i18n="echo">אקו</span><span id="echoLbl">0%</span></div>
+          <input type="range" id="echo" min="0" max="100" value="0">
+          <div class="kv"><span data-i18n="bass">חיזוק בס</span><span id="bassLbl">0</span></div>
+          <input type="range" id="bassBoost" min="0" max="12" value="0">
+          <div class="kv"><span data-i18n="voiceVol">עוצמת הקול שלי</span><span id="voiceLbl">100%</span></div>
+          <input type="range" id="voiceVol" min="0" max="200" value="100">
+          <div class="kv"><span data-i18n="voiceFx">אפקט קול מצחיק</span></div>
+          <select id="voiceFx">
+            <option value="none" data-i18n="fxNone">בלי</option>
+            <option value="robot" data-i18n="fxRobot">🤖 רובוט</option>
+            <option value="helium" data-i18n="fxHelium">🎈 הליום (קול דק)</option>
+            <option value="deep" data-i18n="fxDeep">🐻 קול עמוק</option>
+            <option value="hall" data-i18n="fxHall">🏛 אולם גדול</option>
+            <option value="phone" data-i18n="fxPhone">📞 טלפון ישן</option>
+          </select>
+          <label class="chk"><input type="checkbox" id="pitchFix"> <span data-i18n="pitchFix">✨ תיקון זיופים עדין</span></label>
+        </div>
+        <div class="ch">
+          <b data-i18n="exportMix">ייצוא</b>
+          <div class="kv"><span data-i18n="trimStart">חיתוך התחלה (שנ׳)</span></div>
+          <input type="number" id="trimStart" min="0" value="0">
+          <div class="kv"><span data-i18n="trimEnd">חיתוך סוף (שנ׳, 0 = עד הסוף)</span></div>
+          <input type="number" id="trimEnd" min="0" value="0">
+          <label class="chk"><input type="checkbox" id="fadeChk" checked> <span data-i18n="fade">מעבר הדרגתי</span></label>
+          <label class="chk"><input type="checkbox" id="normChk" checked> <span data-i18n="normalize">איזון עוצמה</span></label>
+          <div class="row" style="margin-top:6px">
+            <button class="btn sm" id="expMp3">MP3</button>
+            <button class="btn sm" id="expWav">WAV</button>
+            <button class="btn sm" id="expVideo" data-i18n="video">סרטון</button>
+            <button class="btn sm" id="mailRec" data-i18n="sendMail">שלח במייל</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== ספריה =================== -->
+<section id="view-library" class="hidden">
+  <div class="card">
+    <div class="row">
+      <h2 class="grow" style="margin:0" data-i18n="tabLibrary">השירים שלי</h2>
+      <select id="profileSel" style="width:auto"></select>
+      <button class="btn sm" id="addProfile" data-i18n="addProfile">+ פרופיל</button>
+    </div>
+    <div class="row" style="margin:12px 0">
+      <input type="text" id="libSearch" data-i18n-ph="searchPh" placeholder="חיפוש לפי שם, תגית או שורה מהמילים…" style="flex:1">
+      <div class="seg" id="libFilter">
+        <button data-f="all" class="on" data-i18n="all">הכל</button>
+        <button data-f="fav" data-i18n="favorites">מועדפים</button>
+        <button data-f="recent" data-i18n="recent">אחרונים</button>
+      </div>
+    </div>
+    <div class="row" id="tagBar" style="margin-bottom:10px"></div>
+    <div class="list" id="libList"></div>
+  </div>
+  <div class="card">
+    <div class="row"><h2 class="grow" style="margin:0" data-i18n="playlists">רשימות השמעה</h2><button class="btn sm" id="newPl" data-i18n="newPlaylist">+ רשימה חדשה</button></div>
+    <div class="list" id="plList" style="margin-top:10px"></div>
+  </div>
+  <div class="card">
+    <h2 data-i18n="myProgress">ההתקדמות שלי</h2>
+    <div class="bars" id="progressBars"></div>
+    <div class="muted" id="progressTxt" style="margin-top:6px"></div>
+  </div>
+</section>
+
+<!-- =================== ערב קריוקי =================== -->
+<section id="view-party" class="hidden">
+  <div id="partyApp"></div>
+</section>
+
+<!-- =================== מדריך =================== -->
+<section id="view-guide" class="hidden">
+  <div class="card guide" id="guideBox"></div>
+</section>
+
+<!-- =================== הגדרות =================== -->
+<section id="view-settings" class="hidden">
+  <div class="card">
+    <h2 data-i18n="tabSettings">הגדרות</h2>
+    <label data-i18n="serverUrl">כתובת השרת</label>
+    <div class="row"><input type="url" id="serverUrl" style="flex:1"><button class="btn" id="serverTest" data-i18n="test">בדוק</button></div>
+    <div class="status" id="serverStatus"></div>
+    <hr style="border-color:var(--line);margin:18px 0">
+    <h3 data-i18n="offline">שמירה במחשב</h3>
+    <div class="muted" data-i18n="offlineHint">שירים שסימנת "שמור בתיקייה" נשמרים גם בלי אינטרנט.</div>
+    <div class="row" style="margin-top:8px"><span id="storageLbl" class="pill"></span><button class="btn sm" id="clearStore" data-i18n="clearAll">מחק הכל</button></div>
+    <hr style="border-color:var(--line);margin:18px 0">
+    <div class="row"><a class="btn" href="#contact" data-i18n="contactBtn">✉ צור קשר</a><a class="btn" href="#account" data-i18n="accBtn">👤 החשבון שלי</a><a class="btn hidden" href="#admin" id="admLink" data-i18n="adminBtn">🛠 לוח מנהל</a></div>
+  </div>
+</section>
+
+<!-- =================== חשבון =================== -->
+<section id="view-account" class="hidden"><div class="card narrow" id="accBox"></div></section>
+<!-- =================== צור קשר =================== -->
+<section id="view-contact" class="hidden"><div class="card narrow" id="contactBox"></div></section>
+<!-- =================== לוח מנהל =================== -->
+<section id="view-admin" class="hidden"><div class="card" id="adminPanel"></div></section>
+<!-- =================== שלט בטלפון =================== -->
+<section id="view-remote" class="hidden"><div id="remoteBox" class="remote"></div></section>
+<!-- =================== ביצוע ששותף =================== -->
+<section id="view-perf" class="hidden"><div id="perfBox"></div></section>
+<!-- =================== קהילה =================== -->
+<section id="view-feed" class="hidden"><div id="feedBox"></div></section>
+<section id="view-profile" class="hidden"><div id="profileBox"></div></section>
+<section id="view-create" class="hidden"><div id="createBox"></div></section>
+<section id="view-notifs" class="hidden"><div id="notifBox" class="narrow"></div></section>
+<section id="view-clip" class="hidden"><div id="clipBox"></div></section>
+<section id="view-event" class="hidden"><div id="eventBox"></div></section>
+<!-- =================== מדיניות פרטיות =================== -->
+<section id="view-privacy" class="hidden"><div class="card narrow guide" id="privacyBox"></div></section>
+</main>
+
+<div id="printArea" class="hidden printable"></div>
+<footer class="noprint"><a href="#contact" data-i18n="contact">צור קשר</a> · <a href="#account" data-i18n="accTitle">החשבון שלי</a> · <a href="#privacy" data-i18n="privacyTitle">מדיניות פרטיות</a></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/tone@14.7.77/build/Tone.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="singers.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+<script src="fx.js"></script>
+<script src="account.js"></script>
+<script src="party.js"></script>
+<script src="social.js"></script>
+</body>
+</html>
