@@ -278,10 +278,16 @@ function ytId(u) {
   return '';
 }
 // כל השירים המאושרים: הקטלוג הגדול (songs.js) + הרשימה הידנית (singers.js)
-const KOSHER_ALL = [
-  ...(window.KOSHER_CATALOG || []).flatMap(c => c.songs.map(([id, title]) => ({ id, title, singer: c.singer, style: c.style }))),
-  ...(window.KOSHER_SONGS || []).map(s => ({ id: ytId(s.url), title: s.title, singer: s.singer, style: s.style || 'מוזיקה יהודית' }))
-].filter(s => s.id);
+// כל שיר בקטלוג: [מזהה, שם השיר, כותרת מקורית ביוטיוב (אם שונה)] – מחפשים בשתיהן
+const KOSHER_ALL = (() => {
+  const all = (window.KOSHER_CATALOG || []).flatMap(c => c.songs.map(([id, title, orig]) => ({ id, title, orig: orig || '', singer: c.singer, style: c.style })));
+  const have = new Set(all.map(s => s.id));
+  for (const s of window.KOSHER_SONGS || []) {
+    const id = ytId(s.url); if (id && !have.has(id)) { have.add(id); all.push({ id, title: s.title, orig: '', singer: s.singer, style: s.style || 'מוזיקה יהודית' }); }
+  }
+  for (const s of all) { s.kTitle = kNorm(s.title); s.kAll = kNorm(s.title + ' ' + s.orig); s.kSinger = kNorm(s.singer); }
+  return all;
+})();
 const KOSHER_BY_ID = new Map(KOSHER_ALL.map(s => [s.id, s]));
 // כל ערוץ מהקטלוג נחשב גם הוא זמר מאושר (לפי שם הערוץ ושם הזמר)
 const KOSHER_SINGER_LIST = [...(window.KOSHER_SINGERS || []),
@@ -313,16 +319,18 @@ async function submitKosher(url) {
 }
 // בחירת שיר: לשוניות סגנון ← עיגולי זמרים ← כרטיסי שירים (עם חיפוש)
 const STYLES = [['', '✨', 'הכל'], ['חסידי', '🕍', 'חסידי'], ['מזרחי', '🪘', 'מזרחי'], ['מוזיקה יהודית', '🎸', 'מוזיקה יהודית'],
-  ['מקהלות', '🎶', 'מקהלות'], ['תזמורות וחתונות', '💍', 'תזמורות וחתונות'], ['ילדים', '🧒', 'ילדים']];
+  ['מקהלות', '🎶', 'מקהלות'], ['תזמורות', '🎺', 'תזמורות'], ['הופעות וחתונות', '💍', 'הופעות וחתונות'], ['ילדים', '🧒', 'ילדים']];
 const KP = { style: '', singer: '', q: '', shown: 30 };
 const PAGE = 30;
 // צבע קבוע לכל זמר לפי השם, כדי שהעיגול שלו ייראה תמיד אותו דבר
 const hue = s => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
 const initials = s => s.replace(/[^\p{L}\s]/gu, '').trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('') || '🎤';
+// חיפוש תמיד בכל השירים (לא רק בזמר/סגנון שנבחר). קודם שירים של זמר בשם הזה, אחר כך שם שיר שמתחיל במילה, ואז השאר.
 function kpSongs() {
   const q = kNorm(KP.q);
-  return KOSHER_ALL.filter(s => (!KP.style || s.style === KP.style) && (!KP.singer || s.singer === KP.singer) &&
-    (!q || kNorm(s.title + ' ' + s.singer).includes(q)));
+  if (!q) return KOSHER_ALL.filter(s => (!KP.style || s.style === KP.style) && (!KP.singer || s.singer === KP.singer));
+  const rank = s => s.kSinger.includes(q) ? 0 : s.kTitle.startsWith(q) ? 1 : s.kTitle.includes(q) ? 2 : s.kAll.includes(q) ? 3 : -1;
+  return KOSHER_ALL.map(s => [rank(s), s]).filter(([r]) => r >= 0).sort((a, b) => a[0] - b[0]).map(([, s]) => s);
 }
 function kpRender() {
   const inStyle = KOSHER_ALL.filter(s => !KP.style || s.style === KP.style);
@@ -339,8 +347,10 @@ function kpRender() {
   // שורת "איפה אני" + השירים
   const list = kpSongs();
   $('#kCount').textContent = `${KOSHER_ALL.length.toLocaleString()} שירים · ${new Set(KOSHER_ALL.map(s => s.singer)).size} זמרים`;
-  $('#kCrumb').innerHTML = KP.singer || KP.q
-    ? `<span>${KP.singer ? `🎤 ${esc(KP.singer)}` : ''}${KP.q ? ` 🔍 "${esc(KP.q)}"` : ''} · ${list.length} שירים</span><button class="btn sm" id="kClear">✕ נקה</button>`
+  $('#kCrumb').innerHTML = KP.q
+    ? `<span>🔍 "${esc(KP.q)}" בכל השירים · ${list.length} שירים</span><button class="btn sm" id="kClear">✕ נקה</button>`
+    : KP.singer
+    ? `<span>🎤 ${esc(KP.singer)} · ${list.length} שירים</span><button class="btn sm" id="kClear">✕ נקה</button>`
     : `<span class="muted">${list.length} שירים${KP.style ? ' בסגנון ' + esc(KP.style) : ''} · בחרו זמר או חפשו</span>`;
   $('#kSongs').innerHTML = list.slice(0, KP.shown).map(s => `<button class="kp-song" data-id="${esc(s.id)}">
       <span class="kp-thumb"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(s.id)}/mqdefault.jpg" alt="" onerror="this.remove()"><i>🎵</i></span>
@@ -1148,7 +1158,7 @@ $('#newPl').onclick = async () => { const n = await ask(t('plName')); if (!n) re
 async function renderPlaylists() {
   const pls = await DB.all('playlists');
   $('#plList').innerHTML = pls.length ? pls.map(p => `<div class="item"><span class="t grow">📃 ${esc(p.name)}</span><span class="muted">${p.songs.length} ${t('songs')}</span>
-    <button class="btn sm" data-plplay="${p.id}">▶ ${t('playAll')}</button><button class="btn sm" data-plshare="${p.id}" title="share">👥 ${LANG === 'en' ? 'Share' : 'שתף'}</button><button class="btn sm" data-pldel="${p.id}">🗑</button></div>`).join('') : `<div class="muted">${t('noPlaylists')}</div>`;
+    <button class="btn sm" data-plplay="${p.id}">▶ ${t('playAll')}</button><button class="btn sm" data-pldel="${p.id}">🗑</button></div>`).join('') : `<div class="muted">${t('noPlaylists')}</div>`;
   $$('[data-plplay]').forEach(b => b.onclick = () => PL.start(pls.find(p => p.id === b.dataset.plplay)));
   $$('[data-plshare]').forEach(b => b.onclick = () => sharePlaylist(pls.find(p => p.id === b.dataset.plshare)));
   $$('[data-pldel]').forEach(b => b.onclick = async () => { await DB.del('playlists', b.dataset.pldel); renderPlaylists(); });

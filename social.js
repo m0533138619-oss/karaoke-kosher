@@ -27,6 +27,7 @@ async function serverOrMsg(box) {
 
 /* ===================== הגבלות – מונה באולפן ===================== */
 async function refreshLimits() {
+  return;   // בגרסה הכשרה אין מכסות
   const box = $('#limitBox'); if (!box) return;
   try {
     if (!(await ensureServer())) { box.textContent = ''; return; }
@@ -508,7 +509,8 @@ function stopRecording() {
 /* ===================== ניתוב וחיבורים ===================== */
 Object.assign(PAGE_TITLES, { feed: 'commTitle', profile: 'profTitle', create: 'createTitle', notifs: 'notifTitle', clip: 'commTitle', event: 'tabParty' });
 // גרסה כשרה: אין קהילה (קליפים, סטורי, פרופילים, התראות) – מחזירים לתפריט הראשי
-const NO_COMMUNITY = ['feed', 'profile', 'create', 'notifs', 'clip', 'event'];
+// בגרסה הכשרה אין קהילה, חשבונות ולוח מנהל
+const NO_COMMUNITY = ['feed', 'profile', 'create', 'notifs', 'clip', 'event', 'account', 'admin'];
 function onSocialView() {
   const v = curView();
   if (NO_COMMUNITY.includes(v)) { location.replace('#home'); return; }

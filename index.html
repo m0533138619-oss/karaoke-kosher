@@ -58,7 +58,6 @@
     <a class="mcard" href="#library"><span class="mi">🎵</span><b data-i18n="tabLibrary">השירים שלי</b><span data-i18n="mLibrary">כל השירים ששמרת, מועדפים ורשימות השמעה</span></a>
     <a class="mcard" href="#party"><span class="mi">🎉</span><b data-i18n="tabParty">מצב שמחה</b><span data-i18n="mParty">תור זמרים לאירוע – כל אחד בתורו במסך מלא</span></a>
     <a class="mcard" href="#guide"><span class="mi">📖</span><b data-i18n="tabGuide">מדריך</b><span data-i18n="mGuide">הסבר צעד אחר צעד איך משתמשים</span></a>
-    <a class="mcard" href="#account"><span class="mi">👤</span><b data-i18n="accTitle">החשבון שלי</b><span data-i18n="mAccount">הרשמה וכניסה – השירים שלך בכל מחשב</span></a>
     <a class="mcard" href="#contact"><span class="mi">✉️</span><b data-i18n="contact">צור קשר</b><span data-i18n="mContact">שאלה, רעיון או בעיה? כתבו לנו</span></a>
     <a class="mcard" href="#settings"><span class="mi">⚙️</span><b data-i18n="tabSettings">הגדרות</b><span data-i18n="mSettings">שרת, שמירה במחשב, יצירת קשר ומנהל</span></a>
   </div>
@@ -106,9 +105,9 @@
         <h2 id="songTitle" class="grow" style="margin:0"></h2>
         <button class="star" id="favBtn" title="★">★</button>
         <button class="btn sm" id="saveBtn" data-i18n="saveToLib">שמור בתיקייה</button>
-        <button class="btn sm" id="shareBtn" data-i18n="share">שתף קישור</button>
+        <button class="btn sm hidden" id="shareBtn" data-i18n="share">שתף קישור</button>
         <button class="btn sm" id="zipBtn" data-i18n="downloadAll">הורד הכל (ZIP)</button>
-        <button class="btn sm" id="sharePerfBtn" data-i18n="sharePerf">🔗 שתף את הביצוע שלי</button>
+        <button class="btn sm hidden" id="sharePerfBtn" data-i18n="sharePerf">🔗 שתף את הביצוע שלי</button>
       </div>
       <div class="muted" id="songMeta" style="margin:6px 0 10px"></div>
       <canvas class="wave" id="wave" height="90"></canvas>
@@ -195,7 +194,7 @@
           <option value="img" data-i18n="bgImg">תמונה שלי…</option>
         </select>
         <input type="file" id="bgImg" accept="image/*" hidden>
-        <select id="trLang" style="width:auto">
+        <select id="trLang" class="hidden" style="width:auto">
           <option value="" data-i18n="noTranslate">בלי תרגום</option>
           <option value="he">→ עברית</option><option value="en">→ English</option>
         </select>
@@ -339,7 +338,7 @@
     <div class="muted" data-i18n="offlineHint">שירים שסימנת "שמור בתיקייה" נשמרים גם בלי אינטרנט.</div>
     <div class="row" style="margin-top:8px"><span id="storageLbl" class="pill"></span><button class="btn sm" id="clearStore" data-i18n="clearAll">מחק הכל</button></div>
     <hr style="border-color:var(--line);margin:18px 0">
-    <div class="row"><a class="btn" href="#contact" data-i18n="contactBtn">✉ צור קשר</a><a class="btn" href="#account" data-i18n="accBtn">👤 החשבון שלי</a><a class="btn hidden" href="#admin" id="admLink" data-i18n="adminBtn">🛠 לוח מנהל</a></div>
+    <div class="row"><a class="btn" href="#contact" data-i18n="contactBtn">✉ צור קשר</a></div>
   </div>
 </section>
 
@@ -365,7 +364,7 @@
 </main>
 
 <div id="printArea" class="hidden printable"></div>
-<footer class="noprint"><a href="#contact" data-i18n="contact">צור קשר</a> · <a href="#account" data-i18n="accTitle">החשבון שלי</a> · <a href="#privacy" data-i18n="privacyTitle">מדיניות פרטיות</a></footer>
+<footer class="noprint"><a href="#contact" data-i18n="contact">צור קשר</a> ·<a href="#privacy" data-i18n="privacyTitle">מדיניות פרטיות</a></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/tone@14.7.77/build/Tone.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
