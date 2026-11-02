@@ -277,16 +277,24 @@ function ytId(u) {
   } catch {}
   return '';
 }
-const KOSHER_IDS = new Set((window.KOSHER_SONGS || []).map(s => ytId(s.url)).filter(Boolean));
+// כל השירים המאושרים: הקטלוג הגדול (songs.js) + הרשימה הידנית (singers.js)
+const KOSHER_ALL = [
+  ...(window.KOSHER_CATALOG || []).flatMap(c => c.songs.map(([id, title]) => ({ id, title, singer: c.singer, style: c.style }))),
+  ...(window.KOSHER_SONGS || []).map(s => ({ id: ytId(s.url), title: s.title, singer: s.singer, style: s.style || 'מוזיקה יהודית' }))
+].filter(s => s.id);
+const KOSHER_BY_ID = new Map(KOSHER_ALL.map(s => [s.id, s]));
+// כל ערוץ מהקטלוג נחשב גם הוא זמר מאושר (לפי שם הערוץ ושם הזמר)
+const KOSHER_SINGER_LIST = [...(window.KOSHER_SINGERS || []),
+  ...(window.KOSHER_CATALOG || []).map(c => ({ name: c.singer, aliases: [c.singer, c.channel] }))];
 function approvedSinger(text) {
   const n = kNorm(text);
-  return (window.KOSHER_SINGERS || []).find(s => s.aliases.some(a => kNorm(a) && n.includes(kNorm(a))));
+  return KOSHER_SINGER_LIST.find(s => s.aliases.some(a => kNorm(a).length > 2 && n.includes(kNorm(a))));
 }
 // מחזיר שם זמר מאושר, או null. שירים מהרשימה מאושרים מראש; אחרת בודקים מי העלה את הסרטון.
 // אם אי אפשר לבדוק (למשל סינון שחוסם את יוטיוב) – לא מאשרים.
 async function kosherCheck(url) {
   const id = ytId(url); if (!id) return null;
-  const listed = (window.KOSHER_SONGS || []).find(s => ytId(s.url) === id);
+  const listed = KOSHER_BY_ID.get(id);
   if (listed) return listed.singer;
   try {
     const r = await fetchT(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent('https://www.youtube.com/watch?v=' + id)}`, {}, 10000);
@@ -303,14 +311,35 @@ async function submitKosher(url) {
   if (!singer) { setJob(0, '🚫 השיר הזה לא מערוץ של זמר מאושר. בחרו שיר מהרשימה, או קישור מהערוץ הרשמי של זמר מאושר.', 'err'); return; }
   submit('yt', 'https://www.youtube.com/watch?v=' + ytId(url));
 }
-(function fillKosherList() {
-  const sel = $('#kosherSel'); if (!sel) return;
+// בחירת שיר: סגנון ← זמר ← חיפוש ← רשימת שירים
+const STYLE_ORDER = ['חסידי', 'מזרחי', 'מוזיקה יהודית', 'מקהלות', 'תזמורות וחתונות', 'ילדים'];
+function fillKosherList() {
+  const style = $('#kStyle').value, singer = $('#kSinger').value, q = kNorm($('#kSearch').value);
+  const songs = KOSHER_ALL.filter(s => (!style || s.style === style) && (!singer || s.singer === singer) &&
+    (!q || kNorm(s.title + ' ' + s.singer).includes(q)));
   const bySinger = {};
-  (window.KOSHER_SONGS || []).forEach(s => (bySinger[s.singer] = bySinger[s.singer] || []).push(s));
-  sel.innerHTML = `<option value="">– בחרו שיר –</option>` + Object.keys(bySinger).map(name =>
-    `<optgroup label="${esc(name)}">${bySinger[name].map(s => `<option value="${esc(s.url)}">${esc(s.title)}</option>`).join('')}</optgroup>`).join('');
-})();
-$('#pickBtn').onclick = () => { const u = $('#kosherSel').value; if (!u) { toast('בחרו שיר מהרשימה'); return; } submitKosher(u); };
+  songs.forEach(s => (bySinger[s.singer] = bySinger[s.singer] || []).push(s));
+  $('#kosherSel').innerHTML = Object.keys(bySinger).sort((a, b) => a.localeCompare(b, 'he')).map(name =>
+    `<optgroup label="${esc(name)}">${bySinger[name].map(s => `<option value="${esc(s.id)}">${esc(s.title)}</option>`).join('')}</optgroup>`).join('')
+    || `<option disabled>לא נמצאו שירים</option>`;
+  $('#kCount').textContent = `(${songs.length} שירים)`;
+}
+function fillSingers() {
+  const style = $('#kStyle').value, cur = $('#kSinger').value;
+  const names = [...new Set(KOSHER_ALL.filter(s => !style || s.style === style).map(s => s.singer))].sort((a, b) => a.localeCompare(b, 'he'));
+  $('#kSinger').innerHTML = `<option value="">כל הזמרים (${names.length})</option>` + names.map(n => `<option ${n === cur ? 'selected' : ''}>${esc(n)}</option>`).join('');
+  fillKosherList();
+}
+if ($('#kStyle')) {
+  const styles = [...new Set(KOSHER_ALL.map(s => s.style))].sort((a, b) => (STYLE_ORDER.indexOf(a) + 1 || 99) - (STYLE_ORDER.indexOf(b) + 1 || 99));
+  $('#kStyle').innerHTML = `<option value="">כל הסגנונות</option>` + styles.map(s => `<option>${esc(s)}</option>`).join('');
+  $('#kStyle').onchange = fillSingers;
+  $('#kSinger').onchange = fillKosherList;
+  let kt = 0; $('#kSearch').oninput = () => { clearTimeout(kt); kt = setTimeout(fillKosherList, 200); };
+  $('#kosherSel').ondblclick = () => $('#pickBtn').click();
+  fillSingers();
+}
+$('#pickBtn').onclick = () => { const id = $('#kosherSel').value; if (!id) { toast('בחרו שיר מהרשימה'); return; } submitKosher('https://www.youtube.com/watch?v=' + id); };
 $('#ytBtn').onclick = () => {
   const u = $('#ytInput').value.trim();
   if (!ytId(u)) { toast(t('badLink')); return; }

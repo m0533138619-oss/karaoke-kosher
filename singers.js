@@ -23,26 +23,27 @@ window.KOSHER_SINGERS = [
   { name: 'ברוך לוין', aliases: ['ברוך לוין', 'baruch levine'] }
 ];
 
-// שירים מוכנים לבחירה. הם עובדים גם עם סינון אינטרנט שחוסם את יוטיוב,
-// כי הבדיקה כאן נעשתה מראש. מוסיפים שיר: { singer: 'שם', title: 'שם השיר', url: 'קישור יוטיוב' }
+// שירים מוכנים לבחירה, בנוסף לקטלוג הגדול ב-songs.js. הם עובדים גם עם סינון אינטרנט שחוסם את יוטיוב.
+// מוסיפים שיר: { singer: 'שם', style: 'סגנון', title: 'שם השיר', url: 'קישור יוטיוב' }
+// סגנונות: חסידי, מזרחי, מוזיקה יהודית, מקהלות, תזמורות וחתונות, ילדים (או סגנון חדש – יופיע לבד)
 window.KOSHER_SONGS = [
-  { singer: 'ישי ריבו', title: 'לא לחינם', url: 'https://www.youtube.com/watch?v=8Be-_tkVljQ' },
-  { singer: 'ישי ריבו', title: 'הלב שלי', url: 'https://www.youtube.com/watch?v=6U_5KhaH6IM' },
-  { singer: 'ישי ריבו', title: 'מלוך', url: 'https://www.youtube.com/watch?v=qLDXIHDDvbI' },
-  { singer: 'ישי ריבו', title: 'ארץ ישראל', url: 'https://www.youtube.com/watch?v=OkZ30zLdHTY' },
-  { singer: 'עקיבא', title: 'רוצה להיות טוב', url: 'https://www.youtube.com/watch?v=9c5jc_p_9NA' },
-  { singer: 'עקיבא', title: 'ללמוד לעוף', url: 'https://www.youtube.com/watch?v=vkzfmRRqf8o' },
-  { singer: 'עקיבא', title: 'תפילות וצעקות', url: 'https://www.youtube.com/watch?v=euWFyNhq0-k' },
-  { singer: 'עקיבא', title: 'פשוטים', url: 'https://www.youtube.com/watch?v=e8LX8SxYWdI' },
-  { singer: 'מוטי שטיינמץ', title: 'הנשמה בקרבי', url: 'https://www.youtube.com/watch?v=lsBFwjHvCjg' },
-  { singer: 'מוטי שטיינמץ', title: 'ומתקדש', url: 'https://www.youtube.com/watch?v=q-JK6ghfHdE' },
-  { singer: 'יעקב שוואקי', title: 'ירושלים', url: 'https://www.youtube.com/watch?v=C7ruAmWfb4A' },
-  { singer: 'יעקב שוואקי', title: 'קדיש', url: 'https://www.youtube.com/watch?v=4H8Newq1BMc' },
-  { singer: 'יעקב שוואקי', title: 'גוף ונשמה', url: 'https://www.youtube.com/watch?v=jZDd18DVaKg' },
-  { singer: 'אברהם פריד', title: 'Father Don\'t Cry', url: 'https://www.youtube.com/watch?v=i9R72YpPq10' },
-  { singer: 'אברהם פריד', title: 'מוריה', url: 'https://www.youtube.com/watch?v=oX0jXPThHkY' },
-  { singer: 'בני פרידמן', title: 'תודה', url: 'https://www.youtube.com/watch?v=MScVEbVjAVc' },
-  { singer: 'בני פרידמן', title: 'יש תקווה', url: 'https://www.youtube.com/watch?v=PIPCHjFC9yk' },
-  { singer: 'בני פרידמן', title: 'לא לפחד', url: 'https://www.youtube.com/watch?v=zCw-h4ikn_c' },
-  { singer: 'בני פרידמן', title: 'עברי אנכי', url: 'https://www.youtube.com/watch?v=aii3fDdZnrM' }
+  { singer: 'ישי ריבו', style: 'מוזיקה יהודית', title: 'לא לחינם', url: 'https://www.youtube.com/watch?v=8Be-_tkVljQ' },
+  { singer: 'ישי ריבו', style: 'מוזיקה יהודית', title: 'הלב שלי', url: 'https://www.youtube.com/watch?v=6U_5KhaH6IM' },
+  { singer: 'ישי ריבו', style: 'מוזיקה יהודית', title: 'מלוך', url: 'https://www.youtube.com/watch?v=qLDXIHDDvbI' },
+  { singer: 'ישי ריבו', style: 'מוזיקה יהודית', title: 'ארץ ישראל', url: 'https://www.youtube.com/watch?v=OkZ30zLdHTY' },
+  { singer: 'עקיבא', style: 'מוזיקה יהודית', title: 'רוצה להיות טוב', url: 'https://www.youtube.com/watch?v=9c5jc_p_9NA' },
+  { singer: 'עקיבא', style: 'מוזיקה יהודית', title: 'ללמוד לעוף', url: 'https://www.youtube.com/watch?v=vkzfmRRqf8o' },
+  { singer: 'עקיבא', style: 'מוזיקה יהודית', title: 'תפילות וצעקות', url: 'https://www.youtube.com/watch?v=euWFyNhq0-k' },
+  { singer: 'עקיבא', style: 'מוזיקה יהודית', title: 'פשוטים', url: 'https://www.youtube.com/watch?v=e8LX8SxYWdI' },
+  { singer: 'מוטי שטיינמץ', style: 'חסידי', title: 'הנשמה בקרבי', url: 'https://www.youtube.com/watch?v=lsBFwjHvCjg' },
+  { singer: 'מוטי שטיינמץ', style: 'חסידי', title: 'ומתקדש', url: 'https://www.youtube.com/watch?v=q-JK6ghfHdE' },
+  { singer: 'יעקב שוואקי', style: 'מוזיקה יהודית', title: 'ירושלים', url: 'https://www.youtube.com/watch?v=C7ruAmWfb4A' },
+  { singer: 'יעקב שוואקי', style: 'מוזיקה יהודית', title: 'קדיש', url: 'https://www.youtube.com/watch?v=4H8Newq1BMc' },
+  { singer: 'יעקב שוואקי', style: 'מוזיקה יהודית', title: 'גוף ונשמה', url: 'https://www.youtube.com/watch?v=jZDd18DVaKg' },
+  { singer: 'אברהם פריד', style: 'חסידי', title: 'Father Don\'t Cry', url: 'https://www.youtube.com/watch?v=i9R72YpPq10' },
+  { singer: 'אברהם פריד', style: 'חסידי', title: 'מוריה', url: 'https://www.youtube.com/watch?v=oX0jXPThHkY' },
+  { singer: 'בני פרידמן', style: 'מוזיקה יהודית', title: 'תודה', url: 'https://www.youtube.com/watch?v=MScVEbVjAVc' },
+  { singer: 'בני פרידמן', style: 'מוזיקה יהודית', title: 'יש תקווה', url: 'https://www.youtube.com/watch?v=PIPCHjFC9yk' },
+  { singer: 'בני פרידמן', style: 'מוזיקה יהודית', title: 'לא לפחד', url: 'https://www.youtube.com/watch?v=zCw-h4ikn_c' },
+  { singer: 'בני פרידמן', style: 'מוזיקה יהודית', title: 'עברי אנכי', url: 'https://www.youtube.com/watch?v=aii3fDdZnrM' }
 ];

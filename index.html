@@ -78,11 +78,14 @@
     <!-- גרסה כשרה: אין העלאת קבצים, רק שירים מאושרים -->
     <div class="drop kosher-pick">
       <div style="font-size:40px">🎵</div>
-      <div><b>בחרו שיר מהרשימה המאושרת</b></div>
+      <div><b>בחרו שיר מהרשימה המאושרת</b> <span class="muted" id="kCount"></span></div>
       <div class="row" style="justify-content:center;margin-top:12px">
-        <select id="kosherSel" style="flex:1;min-width:220px;max-width:420px"></select>
-        <button class="btn pri" id="pickBtn">הבא את השיר</button>
+        <select id="kStyle" style="flex:1;min-width:140px;max-width:200px"></select>
+        <select id="kSinger" style="flex:1;min-width:160px;max-width:240px"></select>
+        <input type="search" id="kSearch" placeholder="🔍 חיפוש שיר…" style="flex:1;min-width:160px;max-width:240px">
       </div>
+      <select id="kosherSel" size="8" style="width:100%;max-width:680px;margin-top:10px"></select>
+      <div style="margin-top:10px"><button class="btn pri" id="pickBtn">הבא את השיר</button></div>
     </div>
     <div class="or" data-i18n="or">או</div>
     <div class="muted" style="margin-bottom:8px">קישור מיוטיוב – רק מערוץ של זמר מאושר (עקיבא, ישי ריבו, מוטי שטיינמץ ועוד)</div>
@@ -369,6 +372,7 @@
 <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script src="singers.js"></script>
+<script src="songs.js"></script>
 <script src="i18n.js"></script>
 <script src="app.js"></script>
 <script src="fx.js"></script>
