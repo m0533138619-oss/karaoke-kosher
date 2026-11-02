@@ -311,35 +311,58 @@ async function submitKosher(url) {
   if (!singer) { setJob(0, '🚫 השיר הזה לא מערוץ של זמר מאושר. בחרו שיר מהרשימה, או קישור מהערוץ הרשמי של זמר מאושר.', 'err'); return; }
   submit('yt', 'https://www.youtube.com/watch?v=' + ytId(url));
 }
-// בחירת שיר: סגנון ← זמר ← חיפוש ← רשימת שירים
-const STYLE_ORDER = ['חסידי', 'מזרחי', 'מוזיקה יהודית', 'מקהלות', 'תזמורות וחתונות', 'ילדים'];
-function fillKosherList() {
-  const style = $('#kStyle').value, singer = $('#kSinger').value, q = kNorm($('#kSearch').value);
-  const songs = KOSHER_ALL.filter(s => (!style || s.style === style) && (!singer || s.singer === singer) &&
+// בחירת שיר: לשוניות סגנון ← עיגולי זמרים ← כרטיסי שירים (עם חיפוש)
+const STYLES = [['', '✨', 'הכל'], ['חסידי', '🕍', 'חסידי'], ['מזרחי', '🪘', 'מזרחי'], ['מוזיקה יהודית', '🎸', 'מוזיקה יהודית'],
+  ['מקהלות', '🎶', 'מקהלות'], ['תזמורות וחתונות', '💍', 'תזמורות וחתונות'], ['ילדים', '🧒', 'ילדים']];
+const KP = { style: '', singer: '', q: '', shown: 30 };
+const PAGE = 30;
+// צבע קבוע לכל זמר לפי השם, כדי שהעיגול שלו ייראה תמיד אותו דבר
+const hue = s => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
+const initials = s => s.replace(/[^\p{L}\s]/gu, '').trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('') || '🎤';
+function kpSongs() {
+  const q = kNorm(KP.q);
+  return KOSHER_ALL.filter(s => (!KP.style || s.style === KP.style) && (!KP.singer || s.singer === KP.singer) &&
     (!q || kNorm(s.title + ' ' + s.singer).includes(q)));
-  const bySinger = {};
-  songs.forEach(s => (bySinger[s.singer] = bySinger[s.singer] || []).push(s));
-  $('#kosherSel').innerHTML = Object.keys(bySinger).sort((a, b) => a.localeCompare(b, 'he')).map(name =>
-    `<optgroup label="${esc(name)}">${bySinger[name].map(s => `<option value="${esc(s.id)}">${esc(s.title)}</option>`).join('')}</optgroup>`).join('')
-    || `<option disabled>לא נמצאו שירים</option>`;
-  $('#kCount').textContent = `(${songs.length} שירים)`;
 }
-function fillSingers() {
-  const style = $('#kStyle').value, cur = $('#kSinger').value;
-  const names = [...new Set(KOSHER_ALL.filter(s => !style || s.style === style).map(s => s.singer))].sort((a, b) => a.localeCompare(b, 'he'));
-  $('#kSinger').innerHTML = `<option value="">כל הזמרים (${names.length})</option>` + names.map(n => `<option ${n === cur ? 'selected' : ''}>${esc(n)}</option>`).join('');
-  fillKosherList();
+function kpRender() {
+  const inStyle = KOSHER_ALL.filter(s => !KP.style || s.style === KP.style);
+  // לשוניות סגנון (רק סגנונות שיש בהם שירים, וסגנון חדש מ-singers.js מתווסף לבד)
+  const known = STYLES.map(s => s[0]);
+  const extra = [...new Set(KOSHER_ALL.map(s => s.style))].filter(s => !known.includes(s)).map(s => [s, '🎵', s]);
+  $('#kStyles').innerHTML = [...STYLES, ...extra].filter(([k]) => !k || KOSHER_ALL.some(s => s.style === k)).map(([k, ic, name]) =>
+    `<button role="tab" class="${KP.style === k ? 'on' : ''}" data-style="${esc(k)}"><span>${ic}</span>${esc(name)}</button>`).join('');
+  // זמרים בסגנון הנוכחי, מהגדול לקטן
+  const counts = {}; inStyle.forEach(s => { counts[s.singer] = (counts[s.singer] || 0) + 1; });
+  const singers = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b, 'he'));
+  $('#kSingers').innerHTML = singers.map(n => `<button class="kp-singer ${KP.singer === n ? 'on' : ''}" data-singer="${esc(n)}" title="${esc(n)}">
+      <span class="kp-ava" style="--h:${hue(n)}">${esc(initials(n))}</span><b>${esc(n)}</b><small>${counts[n]} שירים</small></button>`).join('');
+  // שורת "איפה אני" + השירים
+  const list = kpSongs();
+  $('#kCount').textContent = `${KOSHER_ALL.length.toLocaleString()} שירים · ${new Set(KOSHER_ALL.map(s => s.singer)).size} זמרים`;
+  $('#kCrumb').innerHTML = KP.singer || KP.q
+    ? `<span>${KP.singer ? `🎤 ${esc(KP.singer)}` : ''}${KP.q ? ` 🔍 "${esc(KP.q)}"` : ''} · ${list.length} שירים</span><button class="btn sm" id="kClear">✕ נקה</button>`
+    : `<span class="muted">${list.length} שירים${KP.style ? ' בסגנון ' + esc(KP.style) : ''} · בחרו זמר או חפשו</span>`;
+  $('#kSongs').innerHTML = list.slice(0, KP.shown).map(s => `<button class="kp-song" data-id="${esc(s.id)}">
+      <span class="kp-thumb"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(s.id)}/mqdefault.jpg" alt="" onerror="this.remove()"><i>🎵</i></span>
+      <span class="kp-info"><b>${esc(s.title)}</b><small>${esc(s.singer)} · ${esc(s.style)}</small></span>
+      <span class="kp-go">🎤 לשיר</span></button>`).join('') || `<div class="kp-empty">😕 לא נמצאו שירים. נסו מילה אחרת.</div>`;
+  $('#kMore').classList.toggle('hidden', list.length <= KP.shown);
+  $('#kMore').textContent = `הצג עוד שירים (${list.length - KP.shown})`;
+  $('#kClear') && ($('#kClear').onclick = () => { KP.singer = ''; KP.q = ''; $('#kSearch').value = ''; KP.shown = PAGE; kpRender(); });
 }
-if ($('#kStyle')) {
-  const styles = [...new Set(KOSHER_ALL.map(s => s.style))].sort((a, b) => (STYLE_ORDER.indexOf(a) + 1 || 99) - (STYLE_ORDER.indexOf(b) + 1 || 99));
-  $('#kStyle').innerHTML = `<option value="">כל הסגנונות</option>` + styles.map(s => `<option>${esc(s)}</option>`).join('');
-  $('#kStyle').onchange = fillSingers;
-  $('#kSinger').onchange = fillKosherList;
-  let kt = 0; $('#kSearch').oninput = () => { clearTimeout(kt); kt = setTimeout(fillKosherList, 200); };
-  $('#kosherSel').ondblclick = () => $('#pickBtn').click();
-  fillSingers();
+if ($('#kSongs')) {
+  $('#kStyles').onclick = e => { const b = e.target.closest('[data-style]'); if (!b) return; KP.style = b.dataset.style; KP.singer = ''; KP.shown = PAGE; kpRender(); };
+  $('#kSingers').onclick = e => { const b = e.target.closest('[data-singer]'); if (!b) return;
+    KP.singer = KP.singer === b.dataset.singer ? '' : b.dataset.singer; KP.shown = PAGE; kpRender();
+    $('#kCrumb').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); };
+  $('#kSongs').onclick = e => { const b = e.target.closest('[data-id]'); if (!b) return;
+    $$('.kp-song.on').forEach(x => x.classList.remove('on')); b.classList.add('on');
+    submitKosher('https://www.youtube.com/watch?v=' + b.dataset.id);
+    $('#jobBox').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+  $('#kMore').onclick = () => { KP.shown += PAGE; kpRender(); };
+  let kt = 0; $('#kSearch').oninput = e => { clearTimeout(kt); kt = setTimeout(() => { KP.q = e.target.value.trim(); KP.shown = PAGE; kpRender(); }, 200); };
+  kpRender();
 }
-$('#pickBtn').onclick = () => { const id = $('#kosherSel').value; if (!id) { toast('בחרו שיר מהרשימה'); return; } submitKosher('https://www.youtube.com/watch?v=' + id); };
 $('#ytBtn').onclick = () => {
   const u = $('#ytInput').value.trim();
   if (!ytId(u)) { toast(t('badLink')); return; }

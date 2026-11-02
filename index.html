@@ -76,16 +76,16 @@
       </div>
     </div>
     <!-- גרסה כשרה: אין העלאת קבצים, רק שירים מאושרים -->
-    <div class="drop kosher-pick">
-      <div style="font-size:40px">🎵</div>
-      <div><b>בחרו שיר מהרשימה המאושרת</b> <span class="muted" id="kCount"></span></div>
-      <div class="row" style="justify-content:center;margin-top:12px">
-        <select id="kStyle" style="flex:1;min-width:140px;max-width:200px"></select>
-        <select id="kSinger" style="flex:1;min-width:160px;max-width:240px"></select>
-        <input type="search" id="kSearch" placeholder="🔍 חיפוש שיר…" style="flex:1;min-width:160px;max-width:240px">
+    <div class="kp">
+      <div class="kp-head">
+        <div><h3>🎵 בחרו שיר</h3><span class="muted" id="kCount"></span></div>
+        <label class="kp-search"><span>🔍</span><input type="search" id="kSearch" placeholder="חיפוש שיר או זמר…"></label>
       </div>
-      <select id="kosherSel" size="8" style="width:100%;max-width:680px;margin-top:10px"></select>
-      <div style="margin-top:10px"><button class="btn pri" id="pickBtn">הבא את השיר</button></div>
+      <div class="kp-styles" id="kStyles" role="tablist"></div>
+      <div class="kp-singers" id="kSingers"></div>
+      <div class="kp-crumb" id="kCrumb"></div>
+      <div class="kp-songs" id="kSongs"></div>
+      <button class="btn kp-more hidden" id="kMore">הצג עוד שירים</button>
     </div>
     <div class="or" data-i18n="or">או</div>
     <div class="muted" style="margin-bottom:8px">קישור מיוטיוב – רק מערוץ של זמר מאושר (עקיבא, ישי ריבו, מוטי שטיינמץ ועוד)</div>
